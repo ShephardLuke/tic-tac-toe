@@ -1,1 +1,1 @@
-# Tic-tac-toe with Next.js
+# Tic-tac-toe
