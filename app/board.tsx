@@ -2,21 +2,67 @@ import { useState } from "react";
 import Square from "./square";
 
 export default function Board() {
-    const [xIsNext, setXIsNext] = useState(true);
-    const [squares, setSqaures] = useState(Array(9).fill(null));
+    const [playerIsX, setPlayerIsX] = useState(true);
+    const [playerTurn, setPlayerTurn] = useState(true);
+    const [squares, setSqaures] = useState(Array(9).fill(''));
 
-    function handleClick(i: number) {
-        if (squares[i]) {
+    async function handleClick(index: number) {
+        if (!playerTurn || squares[index]) {
             return;
         }
-        const nextSqaures = squares.slice();
-        if (xIsNext) {
-            nextSqaures[i] = "X";
-        } else {
-            nextSqaures[i] = "O";
-        }
+
+        // Players turn
+        setPlayerTurn(false);
+
+        let nextSqaures = squares.slice();
+        placeTurn(nextSqaures, true, index);
         setSqaures(nextSqaures);
-        setXIsNext(!xIsNext);
+
+        await timeout(1000);
+
+        // Cpus turn
+        nextSqaures = nextSqaures.slice();
+        cpuTurn(nextSqaures);
+        setSqaures(nextSqaures);
+
+        await timeout(1000);
+
+        setPlayerTurn(true);
+    }
+
+    function placeTurn(nextSqaures: Array<string>, isPlayer: boolean, index: number) {
+        let player = "X";
+        let cpu = "O";
+        if (!playerIsX) {
+            player = "O";
+            cpu = "X";
+        }
+        if (isPlayer) {
+            nextSqaures[index] = player;
+        } else {
+            nextSqaures[index] = cpu;
+        }
+    }
+
+    function cpuTurn(nextSqaures: Array<string>) {
+        let spacesAvailable = []; // Find out which spaces the CPU can choose
+        for (let i = 0; i < nextSqaures.length; i++) {
+            if (nextSqaures[i] === '') {
+                spacesAvailable.push(i);
+            }
+        }
+
+        if (spacesAvailable.length === 0) {
+            return;
+        }
+
+        let index = Math.floor(Math.random() * spacesAvailable.length)
+
+        placeTurn(nextSqaures, false, spacesAvailable[index]);
+    }
+
+    function timeout(delay: number) {
+        return new Promise(res => setTimeout(res, delay));
     }
 
     return (
