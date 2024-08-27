@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  background-color: theme('colors.dark-blue')
   /* --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255; */
@@ -17,6 +18,8 @@
 }
 
 body {
+  border-color: white;
+  color:white
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

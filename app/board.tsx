@@ -1,76 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardRow from "./boardRow";
+import Status from "./status";
+import { Bot } from "./bot";
+import { Client } from "./client";
 
 export default function Board() {
-    const [playerIsX, setPlayerIsX] = useState(true);
-    const [playerTurn, setPlayerTurn] = useState(true);
+
+    enum Icon {
+        X,
+        O,
+    }
+
+    const [players, setPlayers] = useState(randomOrder());
+    const [playerTurn, setPlayerTurn] = useState(0);
+
+    const [winner, setWinner] = useState(false);
+
+    const isPlayerClient = players[playerTurn] instanceof Client;
+    const isWinner = winner; // Temp until winner is more fleshed out
+
+
     const [squares, setSquares] = useState(Array(9).fill(''));
 
-    console.log("k");
+    let status;
 
-    async function handleClick(index: number) {
-        if (!playerTurn || squares[index]) {
+    useEffect(() => { // Checks if winner after squares is updated then runs bot's turn if needed
+        let win = checkWinner();
+        if (win) {
+            setWinner(true);
             return;
         }
 
+        if (winner || isPlayerClient) {
+            return;
+        }
+        
+        setTimeout(() => {
+            botTurn();
+        }, 1000);
+
+    }, [squares])
+
+    function randomOrder() { // Player or bot goes first randomly
+        let order = [new Client("You"), new Bot("Bot")];
+        if (Math.floor(Math.random() * 2) === 0) {
+            order = [new Bot("Bot"), new Client("You")];
+        }
+
+        return order;
+    }
+
+    function handleClick(index: number) {
+        if (isWinner || !isPlayerClient || squares[index]) {
+            return;
+        }
+    
+        clientTurn(index);
+        
+    }
+
+    function clientTurn(index:number) {
         // Players turn
-        setPlayerTurn(false);
-
         let nextSquares = squares.slice();
-        placeTurn(nextSquares, true, index);
-        setSquares(nextSquares);
+        playTurn(index, nextSquares);
 
-        await timeout(1000);
+
+    }
+
+    function botTurn() {
+        if (!(players[playerTurn] instanceof Bot)) { // For choosesquare to not show an error
+            return;
+        }
 
         // Cpus turn
-        nextSquares = nextSquares.slice();
-        cpuTurn(nextSquares);
+        let nextSquares = squares.slice();
+        let index = players[playerTurn].chooseSquare(nextSquares);
+        if (index === -1) {
+            return
+        }
+
+        playTurn(index, nextSquares);
+
+    }
+
+    function playTurn(index: number, nextSquares: Array<string>) { // Sets squares and switches turn
+        nextSquares[index] = Icon[playerTurn];
         setSquares(nextSquares);
 
-        await timeout(1000);
-
-        let winPosition = checkWinner(nextSquares.slice());
-        if (winPosition) {
-
-        } else {
-            setPlayerTurn(true);
-        }
-
+            
+        setPlayerTurn((playerTurn + 1) % 2)
     }
 
-    function placeTurn(nextSquares: Array<string>, isPlayer: boolean, index: number) {
-        let player = "X";
-        let cpu = "O";
-        if (!playerIsX) {
-            player = "O";
-            cpu = "X";
-        }
-        if (isPlayer) {
-            nextSquares[index] = player;
-        } else {
-            nextSquares[index] = cpu;
-        }
-    }
-
-    function cpuTurn(nextSquares: Array<string>) {
-        let spacesAvailable = []; // Find out which spaces the CPU can choose
-        for (let i = 0; i < nextSquares.length; i++) {
-            if (nextSquares[i] === '') {
-                spacesAvailable.push(i);
-            }
-        }
-
-        if (spacesAvailable.length === 0) {
-            return;
-        }
-
-        let index = Math.floor(Math.random() * spacesAvailable.length)
-
-        placeTurn(nextSquares, false, spacesAvailable[index]);
-    }
-
-    function checkWinner(nextSqaures : Array<string>) {
-        console.log("check");
+    function checkWinner() { // Generic tic-tac-toe stuff
         let winPositions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -86,23 +107,22 @@ export default function Board() {
 
         for (let i = 0; i < winPositions.length; i++) {
             const [a, b, c] = winPositions[i];
-            if (nextSqaures[a] && nextSqaures[a] === nextSqaures[b] && nextSqaures[b]=== nextSqaures[c]) {
-                return [a, b, c];
+            if (squares[a] && squares[a] === squares[b] && squares[b]=== squares[c]) {
+                return {index: Icon[squares[a]], squares:[a, b, c]};
             }
         }
 
-        return false;
-    }
-
-    function timeout(delay: number) {
-        return new Promise(res => setTimeout(res, delay));
+        return;
     }
 
     return (
-        <div className="p-10">
-            <BoardRow startIndex={0} squares={squares} playerTurn={playerTurn} handleClick={handleClick}/>
-            <BoardRow startIndex={3} squares={squares} playerTurn={playerTurn} handleClick={handleClick}/>
-            <BoardRow startIndex={6} squares={squares} playerTurn={playerTurn} handleClick={handleClick}/>
-        </div>
+        <>
+            <Status a={players[playerTurn].name}/>
+            <div className="p-10">
+                <BoardRow startIndex={0} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
+                <BoardRow startIndex={3} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
+                <BoardRow startIndex={6} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
+            </div>
+        </>
     )
 }
