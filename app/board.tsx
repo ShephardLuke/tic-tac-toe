@@ -3,15 +3,12 @@ import BoardRow from "./boardRow";
 import Status from "./status";
 import { Bot } from "./bot";
 import { Client } from "./client";
+import { Player } from "./player";
+import { Icon } from "./ticTacToeShared";
 
-export default function Board() {
+export default function Board({playersList} : {playersList: (Player)[]}) {
 
-    enum Icon {
-        X,
-        O,
-    }
-
-    const [players, setPlayers] = useState(randomOrder());
+    const [players, setPlayers] = useState(playersList);
     const [playerTurn, setPlayerTurn] = useState(0);
 
     const [winner, setWinner] = useState(false);
@@ -40,15 +37,6 @@ export default function Board() {
         }, 1000);
 
     }, [squares])
-
-    function randomOrder() { // Player or bot goes first randomly
-        let order = [new Client("You"), new Bot("Bot")];
-        if (Math.floor(Math.random() * 2) === 0) {
-            order = [new Bot("Bot"), new Client("You")];
-        }
-
-        return order;
-    }
 
     function handleClick(index: number) {
         if (isWinner || !isPlayerClient || squares[index]) {
@@ -118,7 +106,7 @@ export default function Board() {
     return (
         <>
             <Status a={players[playerTurn].name}/>
-            <div className="p-10">
+            <div className="pt-10">
                 <BoardRow startIndex={0} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
                 <BoardRow startIndex={3} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
                 <BoardRow startIndex={6} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
