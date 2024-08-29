@@ -2,7 +2,7 @@ import { space } from "postcss/lib/list";
 import { Bot } from "./bot";
 import { getWinPositions, Icon } from "./ticTacToeShared";
 
-// Based on Newell and Simon's 1972 tic-tac-toe program
+// 8 Steps based on Newell and Simon's 1972 tic-tac-toe program (https://en.wikipedia.org/wiki/Tic-tac-toe#Strategy)
 
 export class ImpossibleBot extends Bot {
 
