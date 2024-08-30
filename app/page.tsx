@@ -23,7 +23,7 @@ export default function Home() {
     new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot()}),
   ]
 
-  const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs easy bot
+  const [playerList, setPlayerList] = useState<number[]>([0, 3]); // Defaults human vs easy bot
 
   let pk = require("../package.json");
 
