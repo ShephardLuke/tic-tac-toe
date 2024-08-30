@@ -69,7 +69,7 @@ export class ImpossibleBot extends Bot {
         return this.getRandomChosenAvailableSpaces([1, 3, 5, 7], spacesAvailable) // 8. Side
     }
 
-    getFork(icon: Icon, nextSquares: string[], spacesAvailable: number[]): number {
+    getFork(icon: Icon, nextSquares: string[], spacesAvailable: number[]): number { // On 2nd ard 3rd turns, try to create two winning places at once
         if (icon === Icon.O) {
             return -1;
         }
@@ -124,14 +124,10 @@ export class ImpossibleBot extends Bot {
                         continue;
                     }
                     let opposites = this.getOpposites(corner);
-                    let passed = true;
                     for (let opposite of opposites) {
-                        if (!((nextSquares[opposite[1]] === Icon[icon] || this.isPossibleMove(opposite[1], spacesAvailable)) && this.isPossibleMove(opposite[0], spacesAvailable))) {
-                            passed = false;
+                        if ((nextSquares[opposite[1]] === Icon[icon]) && this.isPossibleMove(opposite[0], spacesAvailable)) {
+                            return corner;
                         }
-                    }
-                    if (passed) {
-                        return corner;
                     }
                 }
                 return 4;
