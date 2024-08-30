@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import BoardRow from "./boardRow";
-import Status from "./status";
-import { Bot } from "./bot";
-import { Client } from "./client";
-import { Player } from "./player";
-import { Icon } from "./ticTacToeShared";
+import Status from "../status";
+import { Bot } from "../player/bot/bot";
+import { getSpacesAvailable, Icon } from "./ticTacToeShared";
+import { Player } from "../player/player";
+import { Human } from "../player/human";
 
 export default function Board({playersList} : {playersList: (Player)[]}) {
 
@@ -13,25 +13,30 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
     const [winner, setWinner] = useState(false);
 
-    const isPlayerClient = players[playerTurn] instanceof Client;
-    const isWinner = winner; // Temp until winner is more fleshed out
+    const [status, setStatus] = useState("Turn: " + players[playerTurn].name);
+
+    const isPlayerHuman = players[playerTurn] instanceof Human;
 
 
     const [squares, setSquares] = useState(Array(9).fill(''));
 
-    let status;
-
     useEffect(() => { // Checks if winner after squares is updated then runs bot's turn if needed
-        let win = checkWinner();
-        if (win) {
-            setWinner(true);
+        if (!winner) {
+            let win = checkWinner();
+            if (win) { // Win check
+                setStatus(players[(playerTurn + 1) % 2].name + " won!")
+                setWinner(true);
+                return;
+            } else {
+                if (getSpacesAvailable(squares).length === 0) { // Draw check
+                    setStatus("It is a draw!");
+                    setWinner(true);
+                }
+            }
+        } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
             return;
         }
-
-        if (winner || isPlayerClient) {
-            return;
-        }
-        
+    
         setTimeout(() => {
             botTurn();
         }, 1000);
@@ -39,20 +44,18 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
     }, [squares])
 
     function handleClick(index: number) {
-        if (isWinner || !isPlayerClient || squares[index]) {
+        if (winner || !isPlayerHuman || squares[index]) {
             return;
         }
     
-        clientTurn(index);
+        HumanTurn(index);
         
     }
 
-    function clientTurn(index:number) {
+    function HumanTurn(index:number) {
         // Players turn
         let nextSquares = squares.slice();
         playTurn(index, nextSquares);
-
-
     }
 
     function botTurn() {
@@ -77,6 +80,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
             
         setPlayerTurn((playerTurn + 1) % 2)
+        setStatus("Turn: " + players[playerTurn].name)
     }
 
     function checkWinner() { // Generic tic-tac-toe stuff
@@ -105,11 +109,11 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
     return (
         <>
-            <Status a={players[playerTurn].name}/>
+            <Status text={status}/>
             <div className="pt-10">
-                <BoardRow startIndex={0} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
-                <BoardRow startIndex={3} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
-                <BoardRow startIndex={6} squares={squares} playerTurn={!isWinner && isPlayerClient} handleClick={handleClick}/>
+                <BoardRow startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
             </div>
         </>
     )

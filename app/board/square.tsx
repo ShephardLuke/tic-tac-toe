@@ -1,5 +1,5 @@
 import { MouseEventHandler, useState } from "react";
-import { roboto } from "./font";
+import { roboto } from "../font";
 
 export default function Square({value, enabled, onSquareClick} : {value: string, enabled: boolean, onSquareClick: MouseEventHandler }) {
     return (

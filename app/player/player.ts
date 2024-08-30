@@ -1,6 +1,9 @@
-import { Icon } from "./ticTacToeShared";
+import { Icon } from "../board/ticTacToeShared";
 
 export class Player {
+
+    static NAME = "Player";
+
     name: string;
     icon: Icon;
 

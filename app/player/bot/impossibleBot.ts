@@ -1,18 +1,20 @@
 import { space } from "postcss/lib/list";
-import { Bot } from "./bot";
-import { getWinPositions, Icon } from "./ticTacToeShared";
+import { getSpacesAvailable, getWinPositions, Icon } from "../../board/ticTacToeShared";
+import { HardBot } from "./hardBot";
 
 // 8 Steps based on Newell and Simon's 1972 tic-tac-toe program (https://en.wikipedia.org/wiki/Tic-tac-toe#Strategy)
 
-export class ImpossibleBot extends Bot {
+export class ImpossibleBot extends HardBot {
+
+    static NAME = "Bot (Impossible)";
 
     constructor() {
         super();
-        this.name = "Bot (Impossible)";
+        this.name = ImpossibleBot.NAME;
     }
 
     chooseSquare(nextSquares: string[]): number {
-        let spacesAvailable = this.getSpacesAvailable(nextSquares);
+        let spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;
@@ -125,7 +127,7 @@ export class ImpossibleBot extends Bot {
                     }
                     let opposites = this.getOpposites(corner);
                     for (let opposite of opposites) {
-                        if ((nextSquares[opposite[1]] === Icon[icon]) && this.isPossibleMove(opposite[0], spacesAvailable)) {
+                        if (nextSquares[opposite[1]] === Icon[icon] && this.isPossibleMove(opposite[0], spacesAvailable)) {
                             return corner;
                         }
                     }
@@ -183,50 +185,5 @@ export class ImpossibleBot extends Bot {
         return -1;
     }
 
-    getOtherIcon(icon: Icon) { // Returns opponent's icon
-        if (icon === Icon.X) {
-            return Icon.O;
-        }
-        return Icon.X
-    }
 
-    getThirdSpace(icon: Icon, nextSquares: string[], spacesAvailable: number[]): number { // Returns the winning move when 2 of 3 are placed
-        let winPositions = getWinPositions();
-
-        for (let positions of winPositions) {
-            let spacesLeft = positions.slice();
-
-            for (let i = 0; i < positions.length; i++) {
-                if (spacesLeft.includes(positions[i]) && nextSquares[positions[i]] === Icon[icon]) {
-                    spacesLeft.splice(spacesLeft.indexOf(positions[i]), 1);
-                }
-            }
-
-            if (spacesLeft.length === 1 && this.isPossibleMove(spacesLeft[0], spacesAvailable)) {
-                return spacesLeft[0];
-            }
-        }
-
-        return -1;
-    }
-
-    isPossibleMove(chosenSpace: number, spacesAvailable: number[]): boolean {
-        return spacesAvailable.includes(chosenSpace);
-    }
-
-    getRandomChosenAvailableSpaces(chosenSpaces: number[], spacesAvailable: number[]): number { // Returns a random move out of a group of possible moves
-        let chosenAvailableSpaces = []
-
-        for (let i = 0; i < chosenSpaces.length; i++) {
-            if (spacesAvailable.includes(chosenSpaces[i])) {
-                chosenAvailableSpaces.push(chosenSpaces[i]);
-            }
-        }
-
-        if (chosenAvailableSpaces.length === 0) { // Should never happen if algorithm is implemented right
-            return -1;
-        }
-        
-        return this.randomSpace(chosenAvailableSpaces);
-    }
 }
