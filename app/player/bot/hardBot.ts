@@ -1,6 +1,5 @@
-import { Bot } from "./bot";
 import { MediumBot } from "./mediumBot";
-import { getSpacesAvailable, getWinPositions, Icon } from "../../board/ticTacToeShared";
+import { getSpacesAvailable } from "../../board/ticTacToeShared";
 
 // Impossible bot but without the forks or blocking forks and more random placements
 

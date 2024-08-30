@@ -1,5 +1,4 @@
-import { space } from "postcss/lib/list";
-import { getSpacesAvailable, getWinPositions, Icon } from "../../board/ticTacToeShared";
+import { getSpacesAvailable, Icon } from "../../board/ticTacToeShared";
 import { HardBot } from "./hardBot";
 
 // 8 Steps based on Newell and Simon's 1972 tic-tac-toe program (https://en.wikipedia.org/wiki/Tic-tac-toe#Strategy)

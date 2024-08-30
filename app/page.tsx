@@ -1,5 +1,5 @@
 'use client'
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 import Board from "./board/board";
 import { ImpossibleBot } from "./player/bot/impossibleBot";
 import { Icon } from "./board/ticTacToeShared";
