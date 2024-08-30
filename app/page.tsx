@@ -12,8 +12,6 @@ import { VeryEasyBot } from "./player/bot/veryEasyBot";
 import { Human } from "./player/human";
 
 export default function Home() {
-  const [game, setGame] = useState(<></>);
-
   const difficulties: DifficultyTemplate[] = [ // All selectable difficulties
     new DifficultyTemplate(Human.NAME, () => {return new Human()}),
     new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot()}),
@@ -26,6 +24,8 @@ export default function Home() {
   const [playerList, setPlayerList] = useState<number[]>([0, 3]); // Defaults human vs easy bot
 
   let pk = require("../package.json");
+
+  const [game, setGame] = useState(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>);
 
   function createPlayers() { // Turn templates into players
     let order = [difficulties[playerList[0]].clone(), difficulties[playerList[1]].clone()]
@@ -47,12 +47,23 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <button className="primary-button" onClick={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }>New Game</button>
-      <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
-      <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
-      {game}  
-      <p className="pt-10 text-xs">Version {pk.version}</p>
-    </main>
+    <>
+      <main className="flex flex-col items-center">
+        <h1 className="text-3xl font-bold">Tic-Tac-Toe</h1>
+        {game}  
+        <div className="pt-10 flex flex-col items-center space-y-10">
+          <button className="primary-button" onClick={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }>New Game</button>
+          <div className="flex flex-col md:flex-row space-y-10 md:space-x-10 md:space-y-0">
+          <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
+          <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
+          </div>
+        </div>
+      </main>
+      <footer className="text-center pt-10 pb-10 flex flex-col space-y-10">
+        <hr />
+        <p>View this project on <a className="font-bold underline" href="https://github.com/ShephardLuke/tic-tac-toe">GitHub</a></p>
+        <p>Version {pk.version}</p>
+      </footer>
+    </>
   );
 }

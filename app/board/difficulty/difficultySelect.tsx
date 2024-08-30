@@ -13,10 +13,12 @@ export default function DifficultySelect({label, index, difficulties, selectedVa
 
     return (
         <>
-            <label className="ml-10" htmlFor={selectId}>{label}</label>
-            <select onChange={(event) => {changed(event, index)}} value={selectedValue} className="bg-light-blue" name="difficulty" id={selectId}>
-                {options}
-            </select>    
+            <div>
+                <label htmlFor={selectId}>{label}</label>
+                <select onChange={(event) => {changed(event, index)}} value={selectedValue} className="bg-light-blue" name="difficulty" id={selectId}>
+                    {options}
+                </select>   
+            </div> 
         </>
     )
 }
