@@ -31,6 +31,8 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
                 if (getSpacesAvailable(squares).length === 0) { // Draw check
                     setStatus("It is a draw!");
                     setWinner(true);
+                } else {
+                    setStatus("Turn: " + players[playerTurn].name);
                 }
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
@@ -41,7 +43,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
             botTurn();
         }, 1000);
 
-    }, [squares])
+    }, [playerTurn])
 
     function handleClick(index: number) {
         if (winner || !isPlayerHuman || squares[index]) {
@@ -80,7 +82,6 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
             
         setPlayerTurn((playerTurn + 1) % 2)
-        setStatus("Turn: " + players[playerTurn].name)
     }
 
     function checkWinner() { // Generic tic-tac-toe stuff
