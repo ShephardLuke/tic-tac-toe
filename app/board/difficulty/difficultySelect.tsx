@@ -8,7 +8,7 @@ export default function DifficultySelect({label, index, difficulties, selectedVa
     const options = [];
 
     for (let i = 0; i < difficulties.length; i++) { // Create difficulty options
-        options.push(<option key={crypto.randomUUID()} value={i}>{difficulties[i].getPlayerBehaviour().getName()}</option>)
+        options.push(<option key={i} value={i}>{difficulties[i].getPlayerBehaviour().getName()}</option>)
     }
 
     return (
