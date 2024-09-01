@@ -49,7 +49,7 @@ export default function Home() {
   return (
     <>
       <main className="flex flex-col items-center">
-        <h1 className="text-3xl font-bold">Tic-Tac-Toe</h1>
+        <h1 className="text-3xl font-bold">Tic-tac-toe</h1>
         {game}  
         <div className="pt-10 flex flex-col items-center space-y-10">
           <button className="primary-button" onClick={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }>New Game</button>
