@@ -31,8 +31,9 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
                 if (getSpacesAvailable(squares).length === 0) { // Draw check
                     setStatus("It is a draw!");
                     setWinner(true);
+                } else {
+                    setStatus("Turn: " + players[playerTurn].name);
                 }
-                setStatus("Turn: " + players[playerTurn].name);
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
             return;
