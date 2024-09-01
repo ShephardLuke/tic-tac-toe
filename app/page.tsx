@@ -1,34 +1,28 @@
 'use client'
 import { useState } from "react";
 import Board from "./board/board";
-import { ImpossibleBot } from "./player/bot/impossibleBot";
 import { Icon } from "./board/ticTacToeShared";
 import DifficultySelect from "./board/difficulty/difficultySelect";
+import { PlayerChoice } from "./board/difficulty/playerChoice";
 import { Bot } from "./player/bot/bot";
-import { DifficultyTemplate } from "./board/difficulty/difficultyTemplate";
-import { HardBot } from "./player/bot/hardBot";
-import { MediumBot } from "./player/bot/mediumBot";
-import { VeryEasyBot } from "./player/bot/veryEasyBot";
+import { CalculatedPickEasy } from "./player/bot/calculatedPickEasy";
+import { Playerlike } from "./player/playerlike";
 import { Human } from "./player/human";
 
 export default function Home() {
-  const difficulties: DifficultyTemplate[] = [ // All selectable difficulties
-    new DifficultyTemplate(Human.NAME, () => {return new Human()}),
-    new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot()}),
-    new DifficultyTemplate(Bot.NAME, () => {return new Bot()}),
-    new DifficultyTemplate(MediumBot.NAME, () => {return new MediumBot()}),
-    new DifficultyTemplate(HardBot.NAME, () => {return new HardBot()}),
-    new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot()}),
+  const difficulties: PlayerChoice[] = [ // All selectable difficulties
+    new PlayerChoice(new Human("Player")),
+    new PlayerChoice(new Bot(new CalculatedPickEasy())),
   ]
 
-  const [playerList, setPlayerList] = useState<number[]>([0, 3]); // Defaults human vs easy bot
+  const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs easy bot
 
   let pk = require("../package.json");
 
   const [game, setGame] = useState(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>);
 
   function createPlayers() { // Turn templates into players
-    let order = [difficulties[playerList[0]].clone(), difficulties[playerList[1]].clone()]
+    let order: Playerlike[] = [difficulties[playerList[0]].getNewInstance(), difficulties[playerList[1]].getNewInstance()]
 
     order[0].name = "X - " + order[0].name;
     order[1].name = "O - " + order[1].name;

@@ -1,27 +1,46 @@
-import { getSpacesAvailable } from "@/app/board/ticTacToeShared";
-import { Player } from "../player";
+import { Icon } from "@/app/board/ticTacToeShared";
+import { Botlike } from "./botlike";
+import { CalculatedPickable } from "./calculatedPickable";
 
-// Choses a random available square
+export class Bot implements Botlike {
 
-export class Bot extends Player { 
+    name: string;
+    icon: Icon;
+    pickBehaviour: CalculatedPickable
 
-    static NAME = "Bot (Easy)";
-
-    constructor() {
-        super(Bot.NAME);
+    constructor(pickBehaviour: CalculatedPickable) {
+        this.pickBehaviour = pickBehaviour;
+        this.name = "Bot (" + this.pickBehaviour.getName() + ")";
+        this.icon = Icon.Unassigned;
     }
 
-    randomSpace(spacesAvailable : number[]) {
-        return spacesAvailable[Math.floor(Math.random() * spacesAvailable.length)];
+    chooseSquare(nextSqaures: Array<string>): number {
+        return this.pickBehaviour.chooseSquare(nextSqaures);
     }
 
-    chooseSquare(nextSquares: Array<string>): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
-
-        if (spacesAvailable.length === 0) {
-            return -1;
-        }
-
-        return this.randomSpace(spacesAvailable);
+    setPickBehaviour(pickBehaviour: CalculatedPickable) {
+        this.pickBehaviour = pickBehaviour;
     }
+
+    getPickBehaviour(): CalculatedPickable {
+        return this.pickBehaviour;
+    }
+
+    setName(name: string): void {
+        this.name = name;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    setIcon(icon: Icon): void {
+        this.icon = icon;
+    }
+
+    getIcon(): Icon {
+        return this.icon;
+    }
+
+    
 }
