@@ -4,6 +4,13 @@
 A tic-tac-toe game made with [Next.js](https://nextjs.org/) and [React](https://react.dev/), originally following the [tic-tac-toe React tutorial](https://react.dev/learn/tutorial-tic-tac-toe), I have extended greatly upon it to include styling and bots with different difficulties.
 
 
+# Running the game
+## Online 
+Go to https://tic-tac-toe.shephardluke.co.uk to play this project in your web brower.
+
+## Offline
+Clone the project or download a release from the releases tab, run "npm install" in the folder to download all the dependancies, and then run "npm run dev" to run the project locally.
+
 # Playing the game
 ## Setup
 To setup a game, use the 2 dropdowns to pick who is playing X and O. X always goes first. Here are the different difficulties to choose from: 
