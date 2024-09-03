@@ -1,14 +1,14 @@
+import { PlayerTemplate } from "@/app/player/playerTemplate";
 import { useId } from "react";
-import { PlayerChoice } from "./playerChoice";
 
-export default function DifficultySelect({label, index, difficulties, selectedValue, changed}: {label:string, index:number, difficulties: PlayerChoice[], selectedValue: number, changed: Function}) {
+export default function DifficultySelect({label, index, difficulties, selectedValue, changed}: {label:string, index:number, difficulties: PlayerTemplate[], selectedValue: number, changed: Function}) {
 
     const selectId = useId();
 
     const options = [];
 
     for (let i = 0; i < difficulties.length; i++) { // Create difficulty options
-        options.push(<option key={i} value={i}>{difficulties[i].getPlayerBehaviour().getName()}</option>)
+        options.push(<option key={i} value={i}>{difficulties[i].getName()}</option>)
     }
 
     return (

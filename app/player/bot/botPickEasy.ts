@@ -1,7 +1,7 @@
 import { getSpacesAvailable } from "@/app/board/ticTacToeShared";
-import { Pickable } from "./pickable";
+import { BotPickable } from "./botPickable";
 
-export class CalculatedPickEasy implements Pickable {
+export class BotPickEasy implements BotPickable {
         
     chooseSquare(nextSquares: Array<string>): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);

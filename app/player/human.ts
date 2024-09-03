@@ -1,24 +1,24 @@
 import { Icon } from "../board/ticTacToeShared";
-import { GivenPick } from "./bot/givenPick";
-import { GivenPickable } from "./bot/givenPickable";
+import { HumanPick } from "./bot/humanPick";
 import { Humanlike } from "./humanlike";
 
 export class Human implements Humanlike {
     name: string;
     icon: Icon;
-    pickBehaviour: GivenPickable;
+    pickBehaviour: HumanPick;
 
-    constructor(name: string) {
+    constructor(pickBehaviour: HumanPick, name: string) {
+        this.pickBehaviour = new HumanPick();
         this.name = name;
         this.icon = Icon.Unassigned;
-        this.pickBehaviour = new GivenPick();
+
     }
 
     chooseSquare(square: number): number {
         return this.pickBehaviour.chooseSquare(square);
     }
 
-    setPickBehaviour(pickBehaviour: GivenPickable) {
+    setPickBehaviour(pickBehaviour: HumanPick) {
         this.pickBehaviour = pickBehaviour;
     }
 

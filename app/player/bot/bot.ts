@@ -1,16 +1,17 @@
 import { Icon } from "@/app/board/ticTacToeShared";
 import { Botlike } from "./botlike";
-import { CalculatedPickable } from "./calculatedPickable";
+import { BotPickable } from "./botPickable";
 
 export class Bot implements Botlike {
 
     name: string;
     icon: Icon;
-    pickBehaviour: CalculatedPickable
+    pickBehaviour: BotPickable
 
-    constructor(pickBehaviour: CalculatedPickable) {
+    constructor(pickBehaviour: BotPickable) {
         this.pickBehaviour = pickBehaviour;
-        this.name = "Bot (" + this.pickBehaviour.getName() + ")";
+        console.log(this.pickBehaviour);
+        this.name = "Bot";
         this.icon = Icon.Unassigned;
     }
 
@@ -18,11 +19,11 @@ export class Bot implements Botlike {
         return this.pickBehaviour.chooseSquare(nextSqaures);
     }
 
-    setPickBehaviour(pickBehaviour: CalculatedPickable) {
+    setPickBehaviour(pickBehaviour: BotPickable) {
         this.pickBehaviour = pickBehaviour;
     }
 
-    getPickBehaviour(): CalculatedPickable {
+    getPickBehaviour(): BotPickable {
         return this.pickBehaviour;
     }
 

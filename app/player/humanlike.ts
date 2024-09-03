@@ -1,6 +1,6 @@
-import { GivenPickable } from "./bot/givenPickable";
+import { HumanPickable } from "./bot/humanPickable";
 import { Playerlike } from "./playerlike";
 
-export interface Humanlike extends GivenPickable, Omit<Playerlike, "chooseSquare"> {
+export interface Humanlike extends HumanPickable, Omit<Playerlike, "chooseSquare"> {
 
 }

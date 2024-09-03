@@ -1,5 +1,5 @@
 import { Pickable } from "./pickable";
 
-export interface GivenPickable extends Pickable {
+export interface HumanPickable extends Pickable {
     chooseSquare(square: number): number;
 }

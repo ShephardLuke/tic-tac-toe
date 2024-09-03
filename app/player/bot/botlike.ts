@@ -1,6 +1,6 @@
 import { Playerlike } from "../playerlike";
-import { CalculatedPickable } from "./calculatedPickable";
+import { BotPickable } from "./botPickable";
 
-export interface Botlike extends CalculatedPickable, Omit<Playerlike, "chooseSquare"> {
+export interface Botlike extends BotPickable, Omit<Playerlike, "chooseSquare"> {
 
 }
