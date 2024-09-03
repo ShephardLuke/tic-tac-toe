@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Board from "./board/board";
 import { Icon } from "./board/ticTacToeShared";
-import DifficultySelect from "./board/difficulty/difficultySelect";
+import PlayerSelect from "./board/difficulty/playerSelect";
 import { Bot } from "./player/bot/bot";
 import { BotPickEasy } from "./player/bot/botPickEasy";
 import { Playerlike } from "./player/playerlike";
@@ -13,12 +13,17 @@ import { Pickable } from "./player/bot/pickable";
 import { HumanPickable } from "./player/bot/humanPickable";
 import { BotPickable } from "./player/bot/botPickable";
 import Status from "./status";
+import { TEST_DIFFICULTY_MEDIUM } from "./player/bot/TEST_DIFFICULTIES/TEXT_DEFFICULTY_MEDIUM";
+import { TEST_DIFFICULTY_HARD } from "./player/bot/TEST_DIFFICULTIES/TEST_DIFFICULTY_HARD";
 
 export default function Home() {
-  const playerTemplates = [
+
+  const[playerTemplates, setPlayerTemplates] = useState([
     new PlayerTemplate([new HumanPick], (behaviour: Pickable) => {return new Human(behaviour as HumanPickable, "Human")}),
-    new PlayerTemplate([new BotPickEasy], (behaviour: Pickable) => {return new Bot(behaviour as BotPickable)}),
-  ]
+    new PlayerTemplate([new BotPickEasy, new TEST_DIFFICULTY_MEDIUM, new TEST_DIFFICULTY_HARD], (behaviour: Pickable) => {return new Bot(behaviour as BotPickable)}),
+  ]);
+
+  const [behaviours, setBehaviours] = useState([0, 0])
 
   const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs easy bot
 
@@ -27,17 +32,13 @@ export default function Home() {
   const [game, setGame] = useState(createNewBoard());
 
   function createPlayers(): [null, number] | Playerlike[] { // Turn templates into players
-    let difficulties = [0, 0];
-    let players: (Playerlike | null)[] = [playerTemplates[playerList[0]].createPlayer(difficulties[0]), playerTemplates[playerList[1]].createPlayer(difficulties[1])]
+    let players: (Playerlike | null)[] = [playerTemplates[playerList[0]].createPlayer(behaviours[0]), playerTemplates[playerList[1]].createPlayer(behaviours[1])]
     if (players.includes(null)) {
-      let error: [null, number] = [null, difficulties[players.indexOf(null)]];
+      let error: [null, number] = [null, behaviours[players.indexOf(null)]];
       return error;
     }
     
     let order: Playerlike[] = players as Playerlike[];
-
-    order[0].name = "X - " + order[0].name;
-    order[1].name = "O - " + order[1].name;
 
     order[0].icon = Icon.X;
     order[1].icon = Icon.O;
@@ -55,11 +56,21 @@ export default function Home() {
     return <Board playersList={players} key={new Date().getTime()}/>;
   }
 
-  function setPlayer (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+  function changePlayer (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
     let nextPlayersList = playerList.slice();
     nextPlayersList[index] = parseInt(event.currentTarget.value);
-    console.log(nextPlayersList);
     setPlayerList(nextPlayersList);
+
+    let nextBehaviours = behaviours.slice();
+    nextBehaviours[index] = 0;
+    setBehaviours(nextBehaviours);
+  }
+
+  function changeDifficulty (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+    let nextBehaviours = behaviours.slice();
+
+    nextBehaviours[index] = parseInt(event.currentTarget.value);
+    setBehaviours(nextBehaviours);
   }
 
   return (
@@ -69,9 +80,9 @@ export default function Home() {
         {game}  
         <div className="pt-10 flex flex-col items-center space-y-10">
           <button className="primary-button" onClick={() => {setGame(createNewBoard())}}>New Game</button>
-          <div className="flex flex-col md:flex-row space-y-10 md:space-x-10 md:space-y-0">
-          <DifficultySelect label="X: " difficulties={playerTemplates} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
-          <DifficultySelect label="O: " difficulties={playerTemplates} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
+          <div className="flex flex-col space-y-10">
+            <PlayerSelect key="0" label="X: " playerTemplates={playerTemplates} index={0} selectedValue={playerList[0]} selectedBehaviour={behaviours[0]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
+            <PlayerSelect key="1" label="O: " playerTemplates={playerTemplates} index={1} selectedValue={playerList[1]} selectedBehaviour={behaviours[1]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
           </div>
         </div>
       </main>

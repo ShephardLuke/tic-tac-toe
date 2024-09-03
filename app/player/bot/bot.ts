@@ -10,7 +10,6 @@ export class Bot implements Botlike {
 
     constructor(pickBehaviour: BotPickable) {
         this.pickBehaviour = pickBehaviour;
-        console.log(this.pickBehaviour);
         this.name = "Bot";
         this.icon = Icon.Unassigned;
     }
@@ -41,6 +40,10 @@ export class Bot implements Botlike {
 
     getIcon(): Icon {
         return this.icon;
+    }
+
+    getGameName(): string {
+        return this.name + " (" + this.pickBehaviour.getName() + ") ";
     }
 
     

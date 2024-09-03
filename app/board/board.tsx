@@ -13,7 +13,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
 
     const [winner, setWinner] = useState(false);
 
-    const [status, setStatus] = useState("Turn: " + players[playerTurn].name);
+    const [status, setStatus] = useState("Turn: " + players[playerTurn].getGameName());
 
     const isPlayerHuman = players[playerTurn] instanceof Human
 
@@ -24,7 +24,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
         if (!winner) {
             let win = checkWinner();
             if (win) { // Win check
-                setStatus(players[(playerTurn + 1) % 2].name + " won!")
+                setStatus(players[(playerTurn + 1) % 2].getGameName() + " won!")
                 setWinner(true);
                 return;
             } else {
@@ -32,7 +32,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
                     setStatus("It is a draw!");
                     setWinner(true);
                 } else {
-                    setStatus("Turn: " + players[playerTurn].name);
+                    setStatus("Turn: " + players[playerTurn].getGameName());
                 }
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won

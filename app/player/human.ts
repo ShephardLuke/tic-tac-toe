@@ -41,4 +41,8 @@ export class Human implements Humanlike {
     getIcon(): Icon {
         return this.icon;
     }
+
+    getGameName(): string {
+        return this.name;
+    }
 }

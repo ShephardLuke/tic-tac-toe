@@ -35,6 +35,7 @@ body {
 select {
   font-family: Arial, Helvetica, sans-serif;
   padding: 0.3rem;
+  background-color: theme("colors.light-blue");
 }
 
 button {

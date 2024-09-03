@@ -14,4 +14,6 @@ export interface Playerlike extends Pickable {
 
     setIcon(icon: Icon): void;
     getIcon(): Icon;
+
+    getGameName(): string;
 }

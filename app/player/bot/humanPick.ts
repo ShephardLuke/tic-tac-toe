@@ -4,4 +4,8 @@ export class HumanPick implements HumanPickable {
     chooseSquare(square: number): number {
         return square;
     }
+
+    getName(): string {
+        return "Pick"
+    }
 }

@@ -15,15 +15,19 @@ export class PlayerTemplate
         this.name = instance.getName();
     }
 
-    createPlayer(behaviourIndex: number): Playerlike | null {
-        if (behaviourIndex < 0 || behaviourIndex >= this.behaviours.length) {
+    createPlayer(index: number): Playerlike | null {
+        if (index < 0 || index >= this.behaviours.length) {
             return null;
         }
 
-        return this.createInstance(this.behaviours[behaviourIndex]);
+        return this.createInstance(this.behaviours[index]);
     }
 
-    getName() {
+    getBehaviours() {
+        return this.behaviours;
+    }
+
+    getName(): string {
         return this.name;
     }
 }
