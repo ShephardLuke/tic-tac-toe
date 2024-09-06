@@ -1,19 +1,17 @@
 import { Icon } from "../board/ticTacToeShared";
-import { Pickable } from "./bot/pickable";
+import { Mode } from "./mode";
 
-export interface Playerlike extends Pickable {
+export interface Playerlike extends Omit<Mode, "chooseBehaviour"> {
     name: string;
     icon: Icon;
-    pickBehaviour: Pickable;
+    modeBehaviour: Mode;
 
-    setPickBehaviour(pickBehaviour: Pickable): void;
-    getPickBehaviour(): Pickable;
+    setChooseBehaviour(ChooseBehaviour: Mode): void;
+    getChooseBehaviour(): Mode;
 
     setName(name: string): void;
     getName(): string;
 
     setIcon(icon: Icon): void;
     getIcon(): Icon;
-
-    getGameName(): string;
 }

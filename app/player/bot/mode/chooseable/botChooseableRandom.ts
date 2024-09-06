@@ -1,8 +1,6 @@
 import { getSpacesAvailable } from "@/app/board/ticTacToeShared";
-import { BotPickable } from "../botPickable";
 
-export class TEST_DIFFICULTY_HARD implements BotPickable {
-        
+export class BotChooseableRandom implements BotChooseable {
     chooseSquare(nextSquares: Array<string>): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);
 
@@ -15,9 +13,5 @@ export class TEST_DIFFICULTY_HARD implements BotPickable {
 
     randomSpace(spacesAvailable : number[]) {
         return spacesAvailable[Math.floor(Math.random() * spacesAvailable.length)];
-    }
-
-    getName(): string {
-        return "Hard (PLACEHOLDER)";
     }
 }

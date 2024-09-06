@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BoardRow from "./boardRow";
 import Status from "../status";
 import { getSpacesAvailable, Icon } from "./ticTacToeShared";
-import { Human } from "../player/human";
+import { Human } from "../player/human/human";
 import { Playerlike } from "../player/playerlike";
 import { Bot } from "../player/bot/bot";
 
@@ -13,7 +13,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
 
     const [winner, setWinner] = useState(false);
 
-    const [status, setStatus] = useState("Turn: " + players[playerTurn].getGameName());
+    const [status, setStatus] = useState(getTurnText());
 
     const isPlayerHuman = players[playerTurn] instanceof Human
 
@@ -24,7 +24,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
         if (!winner) {
             let win = checkWinner();
             if (win) { // Win check
-                setStatus(players[(playerTurn + 1) % 2].getGameName() + " won!")
+                setStatus(players[(playerTurn + 1) % 2].getName() + " won!")
                 setWinner(true);
                 return;
             } else {
@@ -32,7 +32,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
                     setStatus("It is a draw!");
                     setWinner(true);
                 } else {
-                    setStatus("Turn: " + players[playerTurn].getGameName());
+                    setStatus(getTurnText());
                 }
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
@@ -44,6 +44,10 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
         }, 1000);
 
     }, [playerTurn])
+
+    function getTurnText() {
+        return "Turn: " + Icon[playerTurn] + " - " + players[playerTurn].getName();
+    }
 
     function handleClick(index: number) {
         if (winner || !isPlayerHuman || squares[index]) {

@@ -4,37 +4,35 @@ import Board from "./board/board";
 import { Icon } from "./board/ticTacToeShared";
 import PlayerSelect from "./board/difficulty/playerSelect";
 import { Bot } from "./player/bot/bot";
-import { BotPickEasy } from "./player/bot/botPickEasy";
 import { Playerlike } from "./player/playerlike";
-import { Human } from "./player/human";
+import { Human } from "./player/human/human";
 import { PlayerTemplate } from "./player/playerTemplate";
-import { HumanPick } from "./player/bot/humanPick";
-import { Pickable } from "./player/bot/pickable";
-import { HumanPickable } from "./player/bot/humanPickable";
-import { BotPickable } from "./player/bot/botPickable";
 import Status from "./status";
-import { TEST_DIFFICULTY_MEDIUM } from "./player/bot/TEST_DIFFICULTIES/TEXT_DEFFICULTY_MEDIUM";
-import { TEST_DIFFICULTY_HARD } from "./player/bot/TEST_DIFFICULTIES/TEST_DIFFICULTY_HARD";
-
+import { HumanModeGiven } from "./player/human/mode/humanModeGiven";
+import { Mode } from "./player/mode";
+import { HumanMode } from "./player/human/mode/humanMode";
+import { BotModeEasy } from "./player/bot/mode/botModeEasy";
+import { BotMode } from "./player/bot/mode/botMode";
+import { BotModeImpossible } from "./player/bot/mode/botModeImpossible";
 export default function Home() {
 
   const[playerTemplates, setPlayerTemplates] = useState([
-    new PlayerTemplate([new HumanPick], (behaviour: Pickable) => {return new Human(behaviour as HumanPickable, "Human")}),
-    new PlayerTemplate([new BotPickEasy, new TEST_DIFFICULTY_MEDIUM, new TEST_DIFFICULTY_HARD], (behaviour: Pickable) => {return new Bot(behaviour as BotPickable)}),
+    new PlayerTemplate([new HumanModeGiven], (mode: Mode) => {return new Human(mode as HumanMode, "Human")}),
+    new PlayerTemplate([new BotModeEasy, new BotModeImpossible], (mode: Mode) => {return new Bot(mode as BotMode)}),
   ]);
 
-  const [behaviours, setBehaviours] = useState([0, 0])
+  const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs bot
 
-  const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs easy bot
+  const [modes, setModes] = useState([0, 1]) // Defaults givewn human vs medium bot
 
   let pk = require("../package.json");
 
   const [game, setGame] = useState(createNewBoard());
 
   function createPlayers(): [null, number] | Playerlike[] { // Turn templates into players
-    let players: (Playerlike | null)[] = [playerTemplates[playerList[0]].createPlayer(behaviours[0]), playerTemplates[playerList[1]].createPlayer(behaviours[1])]
+    let players: (Playerlike | null)[] = [playerTemplates[playerList[0]].createPlayer(modes[0]), playerTemplates[playerList[1]].createPlayer(modes[1])]
     if (players.includes(null)) {
-      let error: [null, number] = [null, behaviours[players.indexOf(null)]];
+      let error: [null, number] = [null, modes[players.indexOf(null)]];
       return error;
     }
     
@@ -42,6 +40,13 @@ export default function Home() {
 
     order[0].icon = Icon.X;
     order[1].icon = Icon.O;
+
+    for (let i = 0; i < playerList.length; i++) {
+      let player = order[i];
+      if (playerTemplates[playerList[i]].getModes().length > 1) {
+        player.setName(player.getName() + " (" + player.getChooseBehaviour().getName() + ")");
+      }
+    }
 
     return order;
   }
@@ -61,16 +66,16 @@ export default function Home() {
     nextPlayersList[index] = parseInt(event.currentTarget.value);
     setPlayerList(nextPlayersList);
 
-    let nextBehaviours = behaviours.slice();
-    nextBehaviours[index] = 0;
-    setBehaviours(nextBehaviours);
+    let nextModes = modes.slice();
+    nextModes[index] = 0;
+    setModes(nextModes);
   }
 
   function changeDifficulty (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
-    let nextBehaviours = behaviours.slice();
+    let nextModes = modes.slice();
 
-    nextBehaviours[index] = parseInt(event.currentTarget.value);
-    setBehaviours(nextBehaviours);
+    nextModes[index] = parseInt(event.currentTarget.value);
+    setModes(nextModes);
   }
 
   return (
@@ -81,8 +86,8 @@ export default function Home() {
         <div className="pt-10 flex flex-col items-center space-y-10">
           <button className="primary-button" onClick={() => {setGame(createNewBoard())}}>New Game</button>
           <div className="flex flex-col space-y-10">
-            <PlayerSelect key="0" label="X: " playerTemplates={playerTemplates} index={0} selectedValue={playerList[0]} selectedBehaviour={behaviours[0]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
-            <PlayerSelect key="1" label="O: " playerTemplates={playerTemplates} index={1} selectedValue={playerList[1]} selectedBehaviour={behaviours[1]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
+            <PlayerSelect key="0" label="X: " playerTemplates={playerTemplates} index={0} selectedValue={playerList[0]} selectedMode={modes[0]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
+            <PlayerSelect key="1" label="O: " playerTemplates={playerTemplates} index={1} selectedValue={playerList[1]} selectedMode={modes[1]} changedPlayer={changePlayer} changedDifficulty={changeDifficulty}/>
           </div>
         </div>
       </main>

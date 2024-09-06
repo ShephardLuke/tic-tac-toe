@@ -1,29 +1,29 @@
 import { Icon } from "@/app/board/ticTacToeShared";
 import { Botlike } from "./botlike";
-import { BotPickable } from "./botPickable";
+import { BotMode } from "./mode/botMode";
 
 export class Bot implements Botlike {
 
     name: string;
     icon: Icon;
-    pickBehaviour: BotPickable
+    modeBehaviour: BotMode
 
-    constructor(pickBehaviour: BotPickable) {
-        this.pickBehaviour = pickBehaviour;
+    constructor(modeBehaviour: BotMode) {
+        this.modeBehaviour = modeBehaviour;
         this.name = "Bot";
         this.icon = Icon.Unassigned;
     }
 
     chooseSquare(nextSqaures: Array<string>): number {
-        return this.pickBehaviour.chooseSquare(nextSqaures);
+        return this.modeBehaviour.chooseSquare(nextSqaures);
     }
 
-    setPickBehaviour(pickBehaviour: BotPickable) {
-        this.pickBehaviour = pickBehaviour;
+    setChooseBehaviour(modeBehaviour: BotMode) {
+        this.modeBehaviour = modeBehaviour;
     }
 
-    getPickBehaviour(): BotPickable {
-        return this.pickBehaviour;
+    getChooseBehaviour(): BotMode {
+        return this.modeBehaviour;
     }
 
     setName(name: string): void {
@@ -40,10 +40,6 @@ export class Bot implements Botlike {
 
     getIcon(): Icon {
         return this.icon;
-    }
-
-    getGameName(): string {
-        return this.name + " (" + this.pickBehaviour.getName() + ") ";
     }
 
     

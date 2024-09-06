@@ -1,6 +1,6 @@
 import { Playerlike } from "../playerlike";
-import { BotPickable } from "./botPickable";
+import { BotMode } from "./mode/botMode";
 
-export interface Botlike extends BotPickable, Omit<Playerlike, "chooseSquare"> {
+export interface Botlike extends Omit<BotMode, "chooseBehaviour">, Omit<Playerlike, "chooseSquare"> {
 
 }

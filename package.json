@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe",
-  "version": "1.1.0-alpha.3",
+  "version": "1.1.0-bot-rework-test.1",
   "private": true,
   "scripts": {
     "dev": "next dev",

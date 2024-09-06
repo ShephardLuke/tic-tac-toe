@@ -1,7 +1,7 @@
 import { PlayerTemplate } from "@/app/player/playerTemplate";
 import { ChangeEvent, ChangeEventHandler, ReactEventHandler, useId, useState } from "react";
 
-export default function playerSelect({label, index, playerTemplates, selectedValue, selectedBehaviour, changedPlayer, changedDifficulty}: {label:string, index:number, playerTemplates: PlayerTemplate[], selectedValue: number, selectedBehaviour: number, changedPlayer: Function, changedDifficulty: Function}) {
+export default function playerSelect({label, index, playerTemplates, selectedValue, selectedMode, changedPlayer, changedDifficulty}: {label:string, index:number, playerTemplates: PlayerTemplate[], selectedValue: number, selectedMode: number, changedPlayer: Function, changedDifficulty: Function}) {
 
     const options = createOptions();
     const selectId = useId();
@@ -27,21 +27,21 @@ export default function playerSelect({label, index, playerTemplates, selectedVal
         }
 
         let selectedTemplate: PlayerTemplate = playerTemplates[selectedValue];
-        let behaviours = selectedTemplate.getBehaviours();
+        let modes = selectedTemplate.getModes();
 
-        if (behaviours.length <= 1) {
+        if (modes.length <= 1) {
             return <></>;
         }
 
-        let difficultyOptions = behaviours.map(behaviour =>
-            <option key={behaviours.indexOf(behaviour)} value={behaviours.indexOf(behaviour)}>{behaviour.getName()}</option>
+        let difficultyOptions = modes.map(mode =>
+            <option key={modes.indexOf(mode)} value={modes.indexOf(mode)}>{mode.getName()}</option>
         ) 
     
 
         return [
         <div key="0">
             <label key="1" htmlFor={optionsId}>Mode: </label>
-            <select key="2" onChange={(event) => {changedDifficulty(event, index)}} value={selectedBehaviour} id={optionsId}>
+            <select key="2" onChange={(event) => {changedDifficulty(event, index)}} value={selectedMode} id={optionsId}>
                 {difficultyOptions}
             </select>
         </div>
