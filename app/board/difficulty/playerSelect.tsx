@@ -1,7 +1,7 @@
 import { PlayerTemplate } from "@/app/player/playerTemplate";
-import { ChangeEvent, ChangeEventHandler, ReactEventHandler, useId, useState } from "react";
+import { useId } from "react";
 
-export default function playerSelect({label, index, playerTemplates, selectedValue, selectedMode, changedPlayer, changedDifficulty}: {label:string, index:number, playerTemplates: PlayerTemplate[], selectedValue: number, selectedMode: number, changedPlayer: Function, changedDifficulty: Function}) {
+export default function PlayerSelect({label, index, playerTemplates, selectedValue, selectedMode, changedPlayer, changedDifficulty}: {label:string, index:number, playerTemplates: PlayerTemplate[], selectedValue: number, selectedMode: number, changedPlayer: Function, changedDifficulty: Function}) {
 
     const options = createOptions();
     const selectId = useId();
@@ -27,7 +27,7 @@ export default function playerSelect({label, index, playerTemplates, selectedVal
         }
 
         let selectedTemplate: PlayerTemplate = playerTemplates[selectedValue];
-        let modes = selectedTemplate.getModes();
+        let modes = selectedTemplate.getClickBehaviours();
 
         if (modes.length <= 1) {
             return <></>;

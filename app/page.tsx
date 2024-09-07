@@ -3,48 +3,43 @@ import { useState } from "react";
 import Board from "./board/board";
 import { Icon } from "./board/ticTacToeShared";
 import PlayerSelect from "./board/difficulty/playerSelect";
-import { Bot } from "./player/bot/bot";
-import { Playerlike } from "./player/playerlike";
-import { Human } from "./player/human/human";
 import { PlayerTemplate } from "./player/playerTemplate";
+import { ClickToTurn } from "./player/turnable/clickToTurn";
+import { Click } from "./player/clickable/click";
+import { Player } from "./player/player";
 import Status from "./status";
-import { HumanModeGiven } from "./player/human/mode/humanModeGiven";
-import { Mode } from "./player/mode";
-import { HumanMode } from "./player/human/mode/humanMode";
-import { BotModeEasy } from "./player/bot/mode/botModeEasy";
-import { BotMode } from "./player/bot/mode/botMode";
-import { BotModeImpossible } from "./player/bot/mode/botModeImpossible";
+import { Name } from "./player/name";
 export default function Home() {
 
   const[playerTemplates, setPlayerTemplates] = useState([
-    new PlayerTemplate([new HumanModeGiven], (mode: Mode) => {return new Human(mode as HumanMode, "Human")}),
-    new PlayerTemplate([new BotModeEasy, new BotModeImpossible], (mode: Mode) => {return new Bot(mode as BotMode)}),
+    new PlayerTemplate(new Name("Human"), [new Click(new ClickToTurn)]),
   ]);
 
-  const [playerList, setPlayerList] = useState<number[]>([0, 1]); // Defaults human vs bot
+  const [playerList, setPlayerList] = useState<number[]>([0, 0]); // Defaults human vs bot
 
-  const [modes, setModes] = useState([0, 1]) // Defaults givewn human vs medium bot
+  const [modes, setModes] = useState([0, 0]) // Defaults givewn human vs medium bot
 
   let pk = require("../package.json");
 
   const [game, setGame] = useState(createNewBoard());
 
-  function createPlayers(): [null, number] | Playerlike[] { // Turn templates into players
-    let players: (Playerlike | null)[] = [playerTemplates[playerList[0]].createPlayer(modes[0]), playerTemplates[playerList[1]].createPlayer(modes[1])]
+  function createPlayers(): [null, number] | Player[] { // Turn templates into players
+    let players: (Player | null)[] = [playerTemplates[playerList[0]].createPlayer(modes[0]), playerTemplates[playerList[1]].createPlayer(modes[1])]
     if (players.includes(null)) {
       let error: [null, number] = [null, modes[players.indexOf(null)]];
       return error;
     }
     
-    let order: Playerlike[] = players as Playerlike[];
+    let order: Player[] = players as Player[];
 
-    order[0].icon = Icon.X;
-    order[1].icon = Icon.O;
+    // order[0].icon = Icon.X;
+    // order[1].icon = Icon.O;
+    console.log(players);
 
     for (let i = 0; i < playerList.length; i++) {
       let player = order[i];
-      if (playerTemplates[playerList[i]].getModes().length > 1) {
-        player.setName(player.getName() + " (" + player.getChooseBehaviour().getName() + ")");
+      if (playerTemplates[playerList[i]].getClickBehaviours().length > 1) {
+        player.setName(player.getName() + " (" + player.getName() + ")");
       }
     }
 
@@ -57,7 +52,7 @@ export default function Home() {
       setGame(<Status text={"Error: difficulty id too high for " + players[1]}></Status>)
       return;
     }
-    players = players as Playerlike[];
+    players = players as Player[];
     return <Board playersList={players} key={new Date().getTime()}/>;
   }
 

@@ -1,33 +1,29 @@
-import { Mode } from "./mode";
-import { Playerlike } from "./playerlike";
+import { Click } from "./clickable/click";
+import { Clickable } from "./clickable/clickable";
+import { Player } from "./player";
 
-export class PlayerTemplate 
-{
-    name: string;
-    modes: Mode[];
-    createInstance: (modeIndex: Mode) => Playerlike;
+export class PlayerTemplate implements Nameable {
+    nameBehaviour: Nameable;
+    clickBehaviours: Clickable[];
 
-    constructor(modes: Mode[], createInstance: (mode: Mode) => Playerlike) {
-        this.modes = modes;
-        this.createInstance = createInstance;
-        this.name = "[No Difficulty]";
-        let instance = this.createInstance(this.modes[0]);
-        this.name = instance.getName();
+    constructor(nameBehaviour: Nameable, clickBehaviours: Clickable[]) {
+        this.nameBehaviour = nameBehaviour;
+        this.clickBehaviours = clickBehaviours;
     }
 
-    createPlayer(index: number): Playerlike | null {
-        if (index < 0 || index >= this.modes.length) {
-            return null;
-        }
-
-        return this.createInstance(this.modes[index]);
+    createPlayer(index: number): Player {
+        return new Player(this.nameBehaviour, this.clickBehaviours[index]);
     }
 
-    getModes() {
-        return this.modes;
+    getClickBehaviours() {
+        return this.clickBehaviours;
+    }
+
+    setName(name: string): void {
+        this.nameBehaviour.setName(name);
     }
 
     getName(): string {
-        return this.name;
+        return this.nameBehaviour.getName();
     }
 }

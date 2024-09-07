@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe",
-  "version": "1.1.0-bot-rework-test.1",
+  "version": "2.0.0-bot-rework-test.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.2.6",
+    "next": "^14.2.8",
     "react": "^18",
     "react-dom": "^18"
   },

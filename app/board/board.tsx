@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import BoardRow from "./boardRow";
 import Status from "../status";
 import { getSpacesAvailable, Icon } from "./ticTacToeShared";
-import { Human } from "../player/human/human";
-import { Playerlike } from "../player/playerlike";
-import { Bot } from "../player/bot/bot";
+import { Player } from "../player/player";
 
-export default function Board({playersList} : {playersList: (Playerlike)[]}) {
+export default function Board({playersList} : {playersList: Player[]}) {
 
     const [players, setPlayers] = useState(playersList);
     const [playerTurn, setPlayerTurn] = useState(0);
@@ -15,7 +13,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
 
     const [status, setStatus] = useState(getTurnText());
 
-    const isPlayerHuman = players[playerTurn] instanceof Human
+    const isPlayerClick = players[playerTurn].canClick()
 
 
     const [squares, setSquares] = useState(Array(9).fill(''));
@@ -35,7 +33,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
                     setStatus(getTurnText());
                 }
             }
-        } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
+        } else if (winner || isPlayerClick) { // Allows bot turn only if the current player is human and nobody won
             return;
         }
     
@@ -50,7 +48,7 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
     }
 
     function handleClick(index: number) {
-        if (winner || !isPlayerHuman || squares[index]) {
+        if (winner || !isPlayerClick || squares[index]) {
             return;
         }
     
@@ -65,18 +63,18 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
     }
 
     function botTurn() {
-        if (!(players[playerTurn] instanceof Bot)) { // For choosesquare to not show an error
+        if (players[playerTurn].canClick()) { // For choosesquare to not show an error
             return;
         }
 
         // Cpus turn
         let nextSquares = squares.slice();
-        let index = players[playerTurn].chooseSquare(nextSquares);
-        if (index === -1) {
-            return
-        }
+        // let index = players[playerTurn].takeTurn(nextSquares);
+        // if (index === -1) {
+        //     return
+        // }
 
-        playTurn(index, nextSquares);
+        playTurn(0, nextSquares);
 
     }
 
@@ -116,9 +114,9 @@ export default function Board({playersList} : {playersList: (Playerlike)[]}) {
         <>
             <Status text={status}/>
             <div className="pt-10">
-                <BoardRow startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow startIndex={0} squares={squares} playerTurn={!winner && isPlayerClick} handleClick={handleClick}/>
+                <BoardRow startIndex={3} squares={squares} playerTurn={!winner && isPlayerClick} handleClick={handleClick}/>
+                <BoardRow startIndex={6} squares={squares} playerTurn={!winner && isPlayerClick} handleClick={handleClick}/>
             </div>
         </>
     )
