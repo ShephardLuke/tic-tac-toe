@@ -69,12 +69,13 @@ export default function Board({playersList} : {playersList: Player[]}) {
 
         // Cpus turn
         let nextSquares = squares.slice();
-        // let index = players[playerTurn].takeTurn(nextSquares);
-        // if (index === -1) {
-        //     return
-        // }
+        let index = players[playerTurn].takeTurn(nextSquares);
+        console.log(index);
+        if (index === -1) {
+            return
+        }
 
-        playTurn(0, nextSquares);
+        playTurn(index, nextSquares);
 
     }
 

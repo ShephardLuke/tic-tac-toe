@@ -2,15 +2,13 @@ import { Name } from "../name";
 import { ClickTurnable } from "../turnable/clickTurnable";
 import { Clickable } from "./clickable";
 
-export class Click implements Clickable, ClickTurnable {
+export abstract class Click implements ClickTurnable, Clickable {
 
     nameBehaviour: Nameable;
-    turnBehaviour: ClickTurnable;
     clicked: number;
 
-    constructor(turnBehaviour: ClickTurnable) {
-        this.nameBehaviour = new Name("Click");
-        this.turnBehaviour = turnBehaviour
+    constructor(nameBehaviour: Nameable) {
+        this.nameBehaviour = nameBehaviour;
         this.clicked = -1;
     }
     
@@ -22,9 +20,7 @@ export class Click implements Clickable, ClickTurnable {
         this.clicked = clicked;
     }
 
-    takeTurn(clicked: number): number {
-        return this.turnBehaviour.takeTurn(clicked);
-    };
+    abstract takeTurn(clicked: number): number;
 
     setName(name: string): void {
         this.nameBehaviour.setName(name);

@@ -2,16 +2,12 @@ import { Name } from "../name";
 import { CannotClickTurnable } from "../turnable/cannotClickTurnable";
 import { Clickable } from "./clickable";
 
-export class CannotClick implements Clickable, CannotClickTurnable {
+export abstract class CannotClick implements CannotClickTurnable, Clickable {
 
     nameBehaviour: Nameable;
-    turnBehaviour: CannotClickTurnable;
-    selected: number;
 
-    constructor(turnBehaviour: CannotClickTurnable) {
-        this.nameBehaviour = new Name("Cannot click");
-        this.turnBehaviour = turnBehaviour;
-        this.selected = -1;
+    constructor(nameBehaviour: Nameable) {
+        this.nameBehaviour = nameBehaviour;
     }
 
     canClick(): boolean {
@@ -21,9 +17,7 @@ export class CannotClick implements Clickable, CannotClickTurnable {
     onClick({ clicked }: { clicked: number; }) {
     }
 
-    takeTurn(): number {
-        return this.turnBehaviour.takeTurn();
-    }
+    abstract takeTurn(nextSquares: string[]): number;
 
     setName(name: string): void {
         this.nameBehaviour.setName(name);

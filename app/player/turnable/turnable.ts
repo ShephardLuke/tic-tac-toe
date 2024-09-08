@@ -1,3 +1,3 @@
-export interface Turnable extends Nameable {
-    takeTurn(...args: any): any;
+export interface Turnable {
+    takeTurn(...args: any): number;
 }

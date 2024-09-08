@@ -1,6 +1,7 @@
 import { Clickable } from "./clickable/clickable";
+import { Turnable } from "./turnable/turnable";
 
-export class Player implements Clickable, Nameable {
+export class Player implements Clickable {
     nameBehaviour: Nameable;
     clickBehaviour: Clickable;
 
@@ -18,7 +19,7 @@ export class Player implements Clickable, Nameable {
         return this.clickBehaviour.onClick({ clicked });
     }
 
-    takeTurn(...args: any): void {
+    takeTurn(...args: any): number {
         return this.clickBehaviour.takeTurn(...args);
     }
 

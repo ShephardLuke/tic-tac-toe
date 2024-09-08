@@ -5,14 +5,15 @@ import { Icon } from "./board/ticTacToeShared";
 import PlayerSelect from "./board/difficulty/playerSelect";
 import { PlayerTemplate } from "./player/playerTemplate";
 import { ClickToTurn } from "./player/turnable/clickToTurn";
-import { Click } from "./player/clickable/click";
 import { Player } from "./player/player";
 import Status from "./status";
 import { Name } from "./player/name";
+import { EasyBotTurn } from "./player/turnable/easyBotTurn";
 export default function Home() {
 
   const[playerTemplates, setPlayerTemplates] = useState([
-    new PlayerTemplate(new Name("Human"), [new Click(new ClickToTurn)]),
+    new PlayerTemplate(new Name("Human"), [new ClickToTurn]),
+    new PlayerTemplate(new Name("Bot"), [new EasyBotTurn])
   ]);
 
   const [playerList, setPlayerList] = useState<number[]>([0, 0]); // Defaults human vs bot
