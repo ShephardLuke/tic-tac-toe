@@ -2,35 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  background-color: theme('colors.dark-blue')
-  /* --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255; */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0; */
-  }
-}
-
-body {
-  border-color: white;
-  color:white;
-  padding-top: 2.5rem;
-  font-family: Arial, Helvetica, sans-serif;
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--
-    background-start-rgb)); */
-}
 
 select {
   font-family: Arial, Helvetica, sans-serif;
@@ -67,6 +38,64 @@ button {
 
 button {
   vertical-align: middle;
+}
+
+/* website-shared v1.1 */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: white;
+  background: theme('colors.darkest-blue');
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+  color: white;
+  background: theme('colors.dark-blue');
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+td, th {
+  text-wrap: wrap;
+  word-break: break-all;
+  padding: 1rem;
+}
+
+div {
+  background-color: theme('colors.dark-blue');
+}
+
+.main {
+  padding: 2.5rem;
+}
+
+.header {
+  background-color: theme('colors.darkest-blue');
+}
+
+table {
+  background-color: theme('colors.light-blue');
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  text-wrap: nowrap;
+}
+
+a:hover {
+  color: grey
 }
 
 @layer utilities {

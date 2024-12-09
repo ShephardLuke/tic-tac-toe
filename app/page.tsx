@@ -10,6 +10,8 @@ import { HardBot } from "./player/bot/hardBot";
 import { MediumBot } from "./player/bot/mediumBot";
 import { VeryEasyBot } from "./player/bot/veryEasyBot";
 import { Human } from "./player/human";
+import Footer from "./website-shared/footer";
+import Header from "./website-shared/header";
 
 export default function Home() {
   const difficulties: DifficultyTemplate[] = [ // All selectable difficulties
@@ -48,7 +50,8 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex flex-col items-center">
+      <Header currentPage="Play"/>
+      <div className="flex flex-col items-center p-20">
         <h1 className="text-3xl font-bold">Tic-tac-toe</h1>
         {game}  
         <div className="pt-10 flex flex-col items-center space-y-10">
@@ -58,12 +61,8 @@ export default function Home() {
           <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
           </div>
         </div>
-      </main>
-      <footer className="text-center pt-10 pb-10 flex flex-col space-y-10">
-        <hr />
-        <p>View this project on <a className="font-bold underline" href="https://github.com/ShephardLuke/tic-tac-toe">GitHub</a></p>
-        <p>Version {pk.version}</p>
-      </footer>
+      </div>
+      <Footer/>
     </>
   );
 }
