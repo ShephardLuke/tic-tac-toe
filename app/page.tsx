@@ -10,8 +10,9 @@ import { HardBot } from "./player/bot/hardBot";
 import { MediumBot } from "./player/bot/mediumBot";
 import { VeryEasyBot } from "./player/bot/veryEasyBot";
 import { Human } from "./player/human";
-import Footer from "./website-shared/footer";
-import Header from "./website-shared/header";
+import Header from "./template/global/header";
+import Footer from "./template/global/footer";
+import SubmitButton from "./template/buttons/submitButton";
 
 export default function Home() {
   const difficulties: DifficultyTemplate[] = [ // All selectable difficulties
@@ -54,11 +55,12 @@ export default function Home() {
       <div className="flex flex-col items-center p-20">
         <h1 className="text-3xl font-bold">Tic-tac-toe</h1>
         {game}  
-        <div className="pt-10 flex flex-col items-center space-y-10">
-          <button className="primary-button" onClick={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }>New Game</button>
+        <div className="flex flex-col items-center space-y-10">
+          <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }/>
+
           <div className="flex flex-col md:flex-row space-y-10 md:space-x-10 md:space-y-0">
-          <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
-          <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
+            <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
+            <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
           </div>
         </div>
       </div>

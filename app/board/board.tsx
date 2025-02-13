@@ -111,7 +111,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
     return (
         <>
             <Status text={status}/>
-            <div className="pt-10">
+            <div className="pt-10 pb-10">
                 <BoardRow startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
                 <BoardRow startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
                 <BoardRow startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
