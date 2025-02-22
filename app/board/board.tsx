@@ -13,7 +13,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
     const [winner, setWinner] = useState(false);
 
-    const [status, setStatus] = useState("Turn: " + players[playerTurn].name);
+    const [status, setStatus] = useState("Turn: " + Icon[playerTurn] + " - " + players[playerTurn].name);
 
     const isPlayerHuman = players[playerTurn] instanceof Human;
 
@@ -24,7 +24,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
         if (!winner) {
             let win = checkWinner();
             if (win) { // Win check
-                setStatus(players[(playerTurn + 1) % 2].name + " won!")
+                setStatus(Icon[(playerTurn + 1) % 2] + " - " + players[(playerTurn + 1) % 2].name + " won!")
                 setWinner(true);
                 return;
             } else {
@@ -32,7 +32,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
                     setStatus("It is a draw!");
                     setWinner(true);
                 } else {
-                    setStatus("Turn: " + players[playerTurn].name);
+                    setStatus("Turn: " + Icon[playerTurn] + " - " + players[playerTurn].name);
                 }
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
@@ -112,9 +112,9 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
         <>
             <Status text={status}/>
             <div className="pt-10 pb-10">
-                <BoardRow startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow classNames={["", "border-l-2", "border-l-2"]} startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]} startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]}  startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
             </div>
         </>
     )

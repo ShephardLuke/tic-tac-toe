@@ -5,11 +5,7 @@ import { Player } from "../player";
 
 export class Bot extends Player { 
 
-    static NAME = "Bot (Easy)";
-
-    constructor() {
-        super(Bot.NAME);
-    }
+    static NAME = "Easy";
 
     randomSpace(spacesAvailable : number[]) {
         return spacesAvailable[Math.floor(Math.random() * spacesAvailable.length)];

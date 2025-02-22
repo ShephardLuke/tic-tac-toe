@@ -13,28 +13,38 @@ import { Human } from "./player/human";
 import Header from "./template/global/header";
 import Footer from "./template/global/footer";
 import SubmitButton from "./template/buttons/submitButton";
+import { DifficultyGroup } from "./board/difficulty/difficultyGroup";
+import { DifficultyReference } from "./board/difficulty/difficultyReference";
 
 export default function Home() {
-  const difficulties: DifficultyTemplate[] = [ // All selectable difficulties
-    new DifficultyTemplate(Human.NAME, () => {return new Human()}),
-    new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot()}),
-    new DifficultyTemplate(Bot.NAME, () => {return new Bot()}),
-    new DifficultyTemplate(MediumBot.NAME, () => {return new MediumBot()}),
-    new DifficultyTemplate(HardBot.NAME, () => {return new HardBot()}),
-    new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot()}),
+  const difficulties: DifficultyGroup[] = [ // All selectable difficulties
+    new DifficultyGroup("Player", [
+      new DifficultyTemplate(Human.NAME, () => {return new Human("Player")}),
+    ]),
+    new DifficultyGroup("Computer", [
+      new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot(`Computer (${VeryEasyBot.NAME})`)}),
+      new DifficultyTemplate(Bot.NAME, () => {return new Bot(`Computer (${Bot.NAME})`)}),
+      new DifficultyTemplate(MediumBot.NAME, () => {return new MediumBot(`Computer (${MediumBot.NAME})`)}),
+      new DifficultyTemplate(HardBot.NAME, () => {return new HardBot(`Computer (${HardBot.NAME})`)}),
+      new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot(`Computer (${ImpossibleBot.NAME})`)}),
+    ])
+
+    // new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot()}),
+    // new DifficultyTemplate(Bot.NAME, () => {return new Bot()}),
+    // new DifficultyTemplate(MediumBot.NAME, () => {return new MediumBot()}),
+    // new DifficultyTemplate(HardBot.NAME, () => {return new HardBot()}),
+    // new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot()}),
   ]
 
-  const [playerList, setPlayerList] = useState<number[]>([0, 3]); // Defaults human vs easy bot
+  const [playerList, setPlayerList] = useState<DifficultyReference[]>([new DifficultyReference(0, 0), new DifficultyReference(1, 2)]); // Defaults human vs medium bot
 
   let pk = require("../package.json");
 
-  const [game, setGame] = useState(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>);
+  const [game, setGame] = useState(<Board playersList={createPlayers()} key={new Date().getTime()}/>);
 
   function createPlayers() { // Turn templates into players
-    let order = [difficulties[playerList[0]].clone(), difficulties[playerList[1]].clone()]
-
-    order[0].name = "X - " + order[0].name;
-    order[1].name = "O - " + order[1].name;
+    console.log(playerList)
+    let order = [difficulties[playerList[0].group].templates[playerList[0].index].clone(), difficulties[playerList[1].group].templates[playerList[1].index].clone()]
 
     order[0].icon = Icon.X;
     order[1].icon = Icon.O;
@@ -42,12 +52,21 @@ export default function Home() {
     return order;
   }
 
-  function setPlayer (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
-    let nextPlayersList = playerList.slice();
-    nextPlayersList[index] = parseInt(event.currentTarget.value);
+  function setDifficultyGroup (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+    let nextPlayersList = [...playerList];
+    console.log("GROUP" + Number((event.target as HTMLSelectElement).value))
+    nextPlayersList[index] = new DifficultyReference(Number((event.target as HTMLSelectElement).value), 0);
     console.log(nextPlayersList);
     setPlayerList(nextPlayersList);
   }
+
+  function setDifficultyIndex (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+    let nextPlayersList = [...playerList];
+    nextPlayersList[index] = new DifficultyReference(nextPlayersList[index].group, Number((event.target as HTMLSelectElement).value));
+    console.log(nextPlayersList);
+    setPlayerList(nextPlayersList);
+  }
+
 
   return (
     <>
@@ -56,11 +75,11 @@ export default function Home() {
         <h1 className="text-3xl font-bold">Tic-tac-toe</h1>
         {game}  
         <div className="flex flex-col items-center space-y-10">
-          <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={crypto.randomUUID()}/>)} }/>
+          <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
 
-          <div className="flex flex-col md:flex-row space-y-10 md:space-x-10 md:space-y-0">
-            <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedValue={playerList[0]} changed={setPlayer}/>
-            <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedValue={playerList[1]} changed={setPlayer}/>
+          <div className="flex flex-col space-y-10 items-center"> 
+            <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
           </div>
         </div>
       </div>

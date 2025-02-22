@@ -5,12 +5,7 @@ import { getSpacesAvailable, getWinPositions, Icon } from "../../board/ticTacToe
 
 export class MediumBot extends Bot {
 
-    static NAME = "Bot (Medium)";
-
-    constructor() {
-        super();
-        this.name = MediumBot.NAME;
-    }
+    static NAME = "Medium";
 
     chooseSquare(nextSquares: Array<string>): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);

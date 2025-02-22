@@ -4,12 +4,8 @@ import { ImpossibleBot } from "./impossibleBot";
 // Uses impossible bot's alogrithm to pick the worst available space.
 
 export class VeryEasyBot extends ImpossibleBot {
-    static NAME = "Bot (Very Easy)";
-
-    constructor() {
-        super();
-        this.name = VeryEasyBot.NAME;
-    }
+   
+    static NAME = "Very Easy";
 
     chooseSquare(nextSquares: string[]): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);

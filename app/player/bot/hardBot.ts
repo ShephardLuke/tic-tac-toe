@@ -5,12 +5,7 @@ import { getSpacesAvailable } from "../../board/ticTacToeShared";
 
 export class HardBot extends MediumBot {
 
-    static NAME = "Bot (Hard)";
-
-    constructor() {
-        super();
-        this.name = HardBot.NAME;
-    }
+    static NAME = "Hard";
 
     chooseSquare(nextSquares: Array<string>): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);

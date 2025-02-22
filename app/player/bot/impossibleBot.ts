@@ -5,12 +5,7 @@ import { HardBot } from "./hardBot";
 
 export class ImpossibleBot extends HardBot {
 
-    static NAME = "Bot (Impossible)";
-
-    constructor() {
-        super();
-        this.name = ImpossibleBot.NAME;
-    }
+    static NAME = "Impossible";
 
     chooseSquare(nextSquares: string[]): number {
         let spacesAvailable = getSpacesAvailable(nextSquares);
