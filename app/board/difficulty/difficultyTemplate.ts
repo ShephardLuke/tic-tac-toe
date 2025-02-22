@@ -1,8 +1,10 @@
+import { Player } from "@/app/player/player";
+
 export class DifficultyTemplate {
     name: string;
-    clone: Function;
+    clone: () => Player;
 
-    constructor(name : string, clone : Function) {
+    constructor(name : string, clone : () => Player) {
         this.name = name;
         this.clone = clone;
     }

@@ -1,5 +1,5 @@
 export function getWinPositions() {
-    let winPositions = [
+    const winPositions = [
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
@@ -16,7 +16,7 @@ export function getWinPositions() {
 }
 
 export function getSpacesAvailable(nextSquares: Array<string>) {
-    let spacesAvailable = []; // Find out which spaces the CPU can choose
+    const spacesAvailable = []; // Find out which spaces the CPU can choose
     for (let i = 0; i < nextSquares.length; i++) {
         if (nextSquares[i] === '') {
             spacesAvailable.push(i);

@@ -12,7 +12,7 @@ export class Bot extends Player {
     }
 
     chooseSquare(nextSquares: Array<string>): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
+        const spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;

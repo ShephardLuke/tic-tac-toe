@@ -38,13 +38,10 @@ export default function Home() {
 
   const [playerList, setPlayerList] = useState<DifficultyReference[]>([new DifficultyReference(0, 0), new DifficultyReference(1, 2)]); // Defaults human vs medium bot
 
-  let pk = require("../package.json");
-
   const [game, setGame] = useState(<Board playersList={createPlayers()} key={new Date().getTime()}/>);
 
   function createPlayers() { // Turn templates into players
-    console.log(playerList)
-    let order = [difficulties[playerList[0].group].templates[playerList[0].index].clone(), difficulties[playerList[1].group].templates[playerList[1].index].clone()]
+    const order = [difficulties[playerList[0].group].templates[playerList[0].index].clone(), difficulties[playerList[1].group].templates[playerList[1].index].clone()]
 
     order[0].icon = Icon.X;
     order[1].icon = Icon.O;
@@ -53,17 +50,16 @@ export default function Home() {
   }
 
   function setDifficultyGroup (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
-    let nextPlayersList = [...playerList];
-    console.log("GROUP" + Number((event.target as HTMLSelectElement).value))
+    const nextPlayersList = [...playerList];
+
     nextPlayersList[index] = new DifficultyReference(Number((event.target as HTMLSelectElement).value), 0);
-    console.log(nextPlayersList);
     setPlayerList(nextPlayersList);
   }
 
   function setDifficultyIndex (event: React.ChangeEvent<HTMLSelectElement>, index: number) {
-    let nextPlayersList = [...playerList];
+    const nextPlayersList = [...playerList];
+
     nextPlayersList[index] = new DifficultyReference(nextPlayersList[index].group, Number((event.target as HTMLSelectElement).value));
-    console.log(nextPlayersList);
     setPlayerList(nextPlayersList);
   }
 

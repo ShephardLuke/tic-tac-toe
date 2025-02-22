@@ -8,13 +8,13 @@ export class VeryEasyBot extends ImpossibleBot {
     static NAME = "Very Easy";
 
     chooseSquare(nextSquares: string[]): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
+        const spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;
         }
 
-        let avoidSpaces: number[] = [];
+        const avoidSpaces: number[] = [];
 
         let chosenSpace: number;
 
@@ -54,11 +54,11 @@ export class VeryEasyBot extends ImpossibleBot {
             avoidSpaces.push(chosenSpace);
         }
 
-        let cornerSpaces: number[] = [];
-        let sideSpaces: number[] = [];
+        const cornerSpaces: number[] = [];
+        const sideSpaces: number[] = [];
 
         for (let i = 0; i < spacesAvailable.length; i++) { // Side spaces are worse, so it tries to play an available side space
-            let current = spacesAvailable[i];
+            const current = spacesAvailable[i];
             if (!avoidSpaces.includes(current)) {
                 if ([1, 3, 5, 7].includes(current)) {
                     sideSpaces.push(current);

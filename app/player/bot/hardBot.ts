@@ -8,13 +8,11 @@ export class HardBot extends MediumBot {
     static NAME = "Hard";
 
     chooseSquare(nextSquares: Array<string>): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
+        const spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;
         }
-
-        let chosenSpace: number;
 
         let thirdSpace = this.getThirdSpace(this.icon, nextSquares, spacesAvailable); // 1. Win if 2/3
 
@@ -28,7 +26,7 @@ export class HardBot extends MediumBot {
             return thirdSpace;
         }
 
-        chosenSpace = this.getRandomChosenAvailableSpaces([4], spacesAvailable) // 3. Center
+        const chosenSpace = this.getRandomChosenAvailableSpaces([4], spacesAvailable) // 3. Center
 
         if (chosenSpace !== -1) {
             return chosenSpace;

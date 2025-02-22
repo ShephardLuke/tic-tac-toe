@@ -8,27 +8,25 @@ export class MediumBot extends Bot {
     static NAME = "Medium";
 
     chooseSquare(nextSquares: Array<string>): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
+        const spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;
         }
 
-        let chosenSpace: number;
-
-        let seesWin = Math.floor(Math.random() * spacesAvailable.length) > 0;
+        const seesWin = Math.floor(Math.random() * spacesAvailable.length) > 0;
 
         let thirdSpace: number;
 
         if (seesWin) {
-            let thirdSpace = this.getThirdSpace(this.icon, nextSquares, spacesAvailable); // 1. Win if 2/3
+            const thirdSpace = this.getThirdSpace(this.icon, nextSquares, spacesAvailable); // 1. Win if 2/3
 
             if (thirdSpace !== -1) { 
                 return thirdSpace;
             }
         }
 
-        let seesBlock = Math.floor(Math.random() * spacesAvailable.length) > 0;
+        const seesBlock = Math.floor(Math.random() * spacesAvailable.length) > 0;
         
         if (seesBlock) {
             thirdSpace = this.getThirdSpace(this.getOtherIcon(this.icon), nextSquares, spacesAvailable); // 2. Stop opponent from winning 
@@ -39,7 +37,7 @@ export class MediumBot extends Bot {
     
         };
 
-        chosenSpace = this.getRandomChosenAvailableSpaces([4], spacesAvailable) // 3. Center
+        const chosenSpace = this.getRandomChosenAvailableSpaces([4], spacesAvailable) // 3. Center
 
         if (chosenSpace !== -1) {
             return chosenSpace;
@@ -49,10 +47,10 @@ export class MediumBot extends Bot {
     }
 
     getThirdSpace(icon: Icon, nextSquares: string[], spacesAvailable: number[]): number { // Returns the winning move when 2 of 3 are placed
-        let winPositions = getWinPositions();
+        const winPositions = getWinPositions();
 
-        for (let positions of winPositions) {
-            let spacesLeft = positions.slice();
+        for (const positions of winPositions) {
+            const spacesLeft = positions.slice();
 
             for (let i = 0; i < positions.length; i++) {
                 if (spacesLeft.includes(positions[i]) && nextSquares[positions[i]] === Icon[icon]) {
@@ -69,7 +67,7 @@ export class MediumBot extends Bot {
     }
 
     getRandomChosenAvailableSpaces(chosenSpaces: number[], spacesAvailable: number[]): number { // Returns a random move out of a group of possible moves
-        let chosenAvailableSpaces = []
+        const chosenAvailableSpaces = []
 
         for (let i = 0; i < chosenSpaces.length; i++) {
             if (spacesAvailable.includes(chosenSpaces[i])) {

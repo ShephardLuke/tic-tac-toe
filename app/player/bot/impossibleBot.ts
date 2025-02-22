@@ -8,7 +8,7 @@ export class ImpossibleBot extends HardBot {
     static NAME = "Impossible";
 
     chooseSquare(nextSquares: string[]): number {
-        let spacesAvailable = getSpacesAvailable(nextSquares);
+        const spacesAvailable = getSpacesAvailable(nextSquares);
 
         if (spacesAvailable.length === 0) {
             return -1;
@@ -70,13 +70,13 @@ export class ImpossibleBot extends HardBot {
             return -1;
         }
 
-        let corners = [0, 2, 6, 8];
+        const corners = [0, 2, 6, 8];
 
 
         if (spacesAvailable.length === 7) { // 2nd move 
 
             let opposites: number[][] = [];
-            for (let corner of corners) {
+            for (const corner of corners) {
                 if (nextSquares[corner] === Icon[icon]) {
                     opposites = this.getOpposites(corner);
                 } 
@@ -87,7 +87,7 @@ export class ImpossibleBot extends HardBot {
             }
 
             if (this.isPossibleMove(4, spacesAvailable)) { // If opponent not in center choose opposite not blocked by them
-                for (let opposite of opposites) {
+                for (const opposite of opposites) {
                     if (this.isPossibleMove(opposite[1], spacesAvailable) && this.isPossibleMove(opposite[0], spacesAvailable)) {
                         return opposite[1];
                     }
@@ -115,12 +115,12 @@ export class ImpossibleBot extends HardBot {
 
         if (spacesAvailable.length === 5) { // Continues from 2nd move non center, now 3rd move is place diagonal not blocked by anything to cause a fork
             if (this.isPossibleMove(4, spacesAvailable)) {
-                for (let corner of corners) {
+                for (const corner of corners) {
                     if (!this.isPossibleMove(corner, spacesAvailable)) {
                         continue;
                     }
-                    let opposites = this.getOpposites(corner);
-                    for (let opposite of opposites) {
+                    const opposites = this.getOpposites(corner);
+                    for (const opposite of opposites) {
                         if (nextSquares[opposite[1]] === Icon[icon] && this.isPossibleMove(opposite[0], spacesAvailable)) {
                             return corner;
                         }
@@ -133,10 +133,10 @@ export class ImpossibleBot extends HardBot {
     }
 
     getBlockFork(icon: Icon, nextSquares: string[], spacesAvailable: number[]) { // Places a center side when opponent uses opposite diagonals to avoid fork
-        let oppositeIcon = this.getOtherIcon(icon);
-        let opposites = [[0, 8], [2, 6]];
+        const oppositeIcon = this.getOtherIcon(icon);
+        const opposites = [[0, 8], [2, 6]];
         for (let i = 0; i < opposites.length; i++) {
-            let current = opposites[i];
+            const current = opposites[i];
             if (nextSquares[4] === Icon[icon] && Icon[oppositeIcon] === nextSquares[current[0]] && nextSquares[current[0]] === nextSquares[current[1]]) {
                 return this.getRandomChosenAvailableSpaces([1, 3, 5, 7], spacesAvailable) // 8. Side 
             }
@@ -165,10 +165,10 @@ export class ImpossibleBot extends HardBot {
     }
 
     getOppositeCorner(icon: Icon, nextSquares: string[], spacesAvailable: number[]) { // Returns a corner opposite to an already places one by the bot, used for forking
-        let oppositeIcon = this.getOtherIcon(icon);
-        let opposites = [[0, 8], [2, 6]];
+        const oppositeIcon = this.getOtherIcon(icon);
+        const opposites = [[0, 8], [2, 6]];
         for (let i = 0; i < opposites.length; i++) {
-            let current = opposites[i];
+            const current = opposites[i];
             if (nextSquares[current[0]] === Icon[oppositeIcon] && this.isPossibleMove(current[1], spacesAvailable)) {
                 return current[1];
             }
