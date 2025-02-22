@@ -71,8 +71,8 @@ export default function Home() {
   return (
     <>
       <Header currentPage="Play"/>
-      <div className="flex flex-col items-center p-20">
-        <h1 className="text-3xl font-bold">Tic-tac-toe</h1>
+      <div className="flex flex-col items-center pt-20 pb-20">
+        <h1 className="text-3xl font-bold">Tic Tac Toe</h1>
         {game}  
         <div className="flex flex-col items-center space-y-10">
           <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
