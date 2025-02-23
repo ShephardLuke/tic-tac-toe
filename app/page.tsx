@@ -65,8 +65,8 @@ export default function Home() {
           <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
 
           <div className="flex flex-col space-y-10 items-center"> 
-            <DifficultySelect label={`${iconToText("X")}: `} difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
-            <DifficultySelect label={`${iconToText("O")}: `} difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect groupLabel={`${iconToText("X")}: `} difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect groupLabel={`${iconToText("O")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
           </div>
         </div>
       </div>
