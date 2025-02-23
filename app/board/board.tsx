@@ -11,6 +11,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
     const [playerTurn, setPlayerTurn] = useState(0);
 
     const [winner, setWinner] = useState(false);
+    const [winSquares, setWinSquares] = useState<number[]>([]);
 
     const [status, setStatus] = useState(" ");
 
@@ -44,10 +45,11 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
             for (let i = 0; i < winPositions.length; i++) {
                 const [a, b, c] = winPositions[i];
                 if (squares[a] && squares[a] === squares[b] && squares[b]=== squares[c]) {
+                    setWinSquares([a, b, c])
                     return {index: Icon[squares[a]], squares:[a, b, c]};
                 }
             }
-    
+
             return;
         }    
 
@@ -104,17 +106,17 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
     return (
         <div className="text-center">
-            <div className="flex justify-evenly">
-                <p className={playerTurn === 0 ? "text-green-400" : ""}>{iconToText("X")}: {playersList[0].name}</p>
-                <p className={playerTurn === 1 ? "text-green-400" : ""}>{iconToText("O")}: {playersList[1].name}</p>          
+            <div className="flex flex-col space-y-5 sm:flex-row sm:space-y-0 justify-evenly">
+                <p className={playerTurn === 0 && !winner ? "text-green-400" : ""}>{iconToText("X")}: {playersList[0].name}</p>
+                <p className={playerTurn === 1 && !winner ? "text-green-400" : ""}>{iconToText("O")}: {playersList[1].name}</p>          
             </div>
 
             <p className="pt-10">{status}</p>
 
             <div className="pt-10 pb-10">
-                <BoardRow classNames={["", "border-l-2", "border-l-2"]} startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]} startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
-                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]}  startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
+                <BoardRow classNames={["", "border-l-2", "border-l-2"]} startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick} winSquares={winSquares}/>
+                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]} startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick} winSquares={winSquares}/>
+                <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]}  startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick} winSquares={winSquares}/>
             </div>
         </div>
     )

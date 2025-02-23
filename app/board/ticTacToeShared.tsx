@@ -36,4 +36,5 @@ export function iconToText(icon: string) {
 export enum Icon {
     X,
     O,
+    Unassigned,
 }

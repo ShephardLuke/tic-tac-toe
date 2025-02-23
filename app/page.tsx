@@ -14,7 +14,7 @@ import Footer from "./template/global/footer";
 import SubmitButton from "./template/buttons/submitButton";
 import { DifficultyGroup } from "./board/difficulty/difficultyGroup";
 import { DifficultyReference } from "./board/difficulty/difficultyReference";
-import { iconToText } from "./board/ticTacToeShared";
+import { Icon, iconToText } from "./board/ticTacToeShared";
 
 export default function Home() {
   const difficulties: DifficultyGroup[] = [ // All selectable difficulties
@@ -36,6 +36,9 @@ export default function Home() {
 
   function createPlayers() { // Turn templates into players
     const order = [difficulties[playerList[0].group].templates[playerList[0].index].clone(), difficulties[playerList[1].group].templates[playerList[1].index].clone()]
+
+    order[0].icon = Icon.X;
+    order[1].icon = Icon.O;
 
     return order;
   }
