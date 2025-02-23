@@ -26,9 +26,14 @@ export function getSpacesAvailable(nextSquares: Array<string>) {
     return spacesAvailable;
 }
 
+export function iconToText(icon: string) {
+    if (icon == "X") {
+        return "✕"
+    }
+    return "⭕︎"
+}
 
 export enum Icon {
     X,
     O,
-    Unassigned,
 }

@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import BoardRow from "./boardRow";
-import Status from "../status";
 import { Bot } from "../player/bot/bot";
-import { getSpacesAvailable, Icon } from "./ticTacToeShared";
+import { getSpacesAvailable, Icon, iconToText } from "./ticTacToeShared";
 import { Player } from "../player/player";
 import { Human } from "../player/human";
 
@@ -13,7 +12,7 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
 
     const [winner, setWinner] = useState(false);
 
-    const [status, setStatus] = useState("Turn: " + Icon[playerTurn] + " - " + players[playerTurn].name);
+    const [status, setStatus] = useState(" ");
 
     const isPlayerHuman = players[playerTurn] instanceof Human;
 
@@ -71,15 +70,13 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
         if (!winner) {
             const win = checkWinner();
             if (win) { // Win check
-                setStatus(Icon[(playerTurn + 1) % 2] + " - " + players[(playerTurn + 1) % 2].name + " won!")
+                setStatus(iconToText(Icon[(playerTurn + 1) % 2]) + " won!")
                 setWinner(true);
                 return;
             } else {
                 if (getSpacesAvailable(squares).length === 0) { // Draw check
                     setStatus("It is a draw!");
                     setWinner(true);
-                } else {
-                    setStatus("Turn: " + Icon[playerTurn] + " - " + players[playerTurn].name);
                 }
             }
         } else if (winner || isPlayerHuman) { // Allows bot turn only if the current player is human and nobody won
@@ -106,13 +103,19 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
     }
 
     return (
-        <>
-            <Status text={status}/>
+        <div className="text-center">
+            <div className="flex justify-evenly">
+                <p className={playerTurn === 0 ? "text-green-400" : ""}>{iconToText("X")}: {playersList[0].name}</p>
+                <p className={playerTurn === 1 ? "text-green-400" : ""}>{iconToText("O")}: {playersList[1].name}</p>          
+            </div>
+
+            <p className="pt-10">{status}</p>
+
             <div className="pt-10 pb-10">
                 <BoardRow classNames={["", "border-l-2", "border-l-2"]} startIndex={0} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
                 <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]} startIndex={3} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
                 <BoardRow classNames={["border-t-2", "border-l-2 border-t-2", "border-l-2 border-t-2"]}  startIndex={6} squares={squares} playerTurn={!winner && isPlayerHuman} handleClick={handleClick}/>
             </div>
-        </>
+        </div>
     )
 }

@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Board from "./board/board";
 import { ImpossibleBot } from "./player/bot/impossibleBot";
-import { Icon } from "./board/ticTacToeShared";
 import DifficultySelect from "./board/difficulty/difficultySelect";
 import { Bot } from "./player/bot/bot";
 import { DifficultyTemplate } from "./board/difficulty/difficultyTemplate";
@@ -15,6 +14,7 @@ import Footer from "./template/global/footer";
 import SubmitButton from "./template/buttons/submitButton";
 import { DifficultyGroup } from "./board/difficulty/difficultyGroup";
 import { DifficultyReference } from "./board/difficulty/difficultyReference";
+import { iconToText } from "./board/ticTacToeShared";
 
 export default function Home() {
   const difficulties: DifficultyGroup[] = [ // All selectable difficulties
@@ -28,12 +28,6 @@ export default function Home() {
       new DifficultyTemplate(HardBot.NAME, () => {return new HardBot(`Computer (${HardBot.NAME})`)}),
       new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot(`Computer (${ImpossibleBot.NAME})`)}),
     ])
-
-    // new DifficultyTemplate(VeryEasyBot.NAME, () => {return new VeryEasyBot()}),
-    // new DifficultyTemplate(Bot.NAME, () => {return new Bot()}),
-    // new DifficultyTemplate(MediumBot.NAME, () => {return new MediumBot()}),
-    // new DifficultyTemplate(HardBot.NAME, () => {return new HardBot()}),
-    // new DifficultyTemplate(ImpossibleBot.NAME, () => {return new ImpossibleBot()}),
   ]
 
   const [playerList, setPlayerList] = useState<DifficultyReference[]>([new DifficultyReference(0, 0), new DifficultyReference(1, 2)]); // Defaults human vs medium bot
@@ -42,9 +36,6 @@ export default function Home() {
 
   function createPlayers() { // Turn templates into players
     const order = [difficulties[playerList[0].group].templates[playerList[0].index].clone(), difficulties[playerList[1].group].templates[playerList[1].index].clone()]
-
-    order[0].icon = Icon.X;
-    order[1].icon = Icon.O;
 
     return order;
   }
@@ -74,8 +65,8 @@ export default function Home() {
           <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
 
           <div className="flex flex-col space-y-10 items-center"> 
-            <DifficultySelect label="X: " difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
-            <DifficultySelect label="O: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect label={`${iconToText("X")}: `} difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect label={`${iconToText("O")}: `} difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
           </div>
         </div>
       </div>
