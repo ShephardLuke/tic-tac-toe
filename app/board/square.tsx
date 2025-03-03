@@ -17,10 +17,10 @@ export default function Square({value, enabled, onSquareClick, className, won=fa
     return (
         <>
             <button 
-                className={`${className ? className : ""} ${won ? winColour : normalColour} w-24 h-24 text-[5rem] sm:w-52 sm:h-52 sm:text-[10rem] bg-dark ${enabled ? 'cursor-pointer hover:bg-darkest-blue active:bg-darkest-blue-2x' : 'cursor-default'} text-3xl`}
+                className={`${className ? className : ""}  w-24 h-24 text-[5rem] sm:w-52 sm:h-52 sm:text-[10rem] bg-dark ${enabled ? 'cursor-pointer hover:bg-darkest-blue active:bg-darkest-blue-2x hover:transition' : 'cursor-default'} text-3xl`}
                 onClick={onSquareClick}
             >
-                {value ? iconToText(value) : ""}
+                <span className={`transition duration-700 ease-in-out ${value ? `transition-opacity-100` : `opacity-0`} ${won ? winColour : normalColour}`}>{value ? iconToText(value) : ""}</span>
             </button>
         </>
 

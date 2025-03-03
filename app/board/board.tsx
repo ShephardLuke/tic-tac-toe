@@ -107,8 +107,8 @@ export default function Board({playersList} : {playersList: (Player)[]}) {
     return (
         <div className="text-center">
             <div className="flex flex-col space-y-5 sm:flex-row sm:space-y-0 justify-evenly">
-                <p className={playerTurn === 0 && !winner ? "text-green-400" : ""}>{iconToText("X")}: {playersList[0].name}</p>
-                <p className={playerTurn === 1 && !winner ? "text-green-400" : ""}>{iconToText("O")}: {playersList[1].name}</p>          
+                <p className={`${playerTurn === 0 && !winner ? "animate-pulse" : ""}`}>{iconToText("X")}: {playersList[0].name}</p>
+                <p className={`${playerTurn === 1 && !winner ? "animate-pulse" : ""}`}>{iconToText("O")}: {playersList[1].name}</p>          
             </div>
 
             <p className="pt-10">{status}</p>

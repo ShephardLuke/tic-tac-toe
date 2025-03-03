@@ -32,11 +32,8 @@ td, th {
   padding: 1rem;
 }
 
-div {
+main {
   background-color: theme('colors.dark-blue');
-}
-
-.main {
   padding: 2.5rem;
 }
 

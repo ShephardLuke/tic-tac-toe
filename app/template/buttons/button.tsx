@@ -9,6 +9,6 @@ export default function Button({text, clicked, classAdd}: {text: ReactNode, clic
     }
 
     return (
-        <button className={"p-2 " + toAdd} onClick={clicked? clicked : () => {}}>{text}</button>
+        <button className={"p-2 transition duration-300 ease-in-out hover:scale-110 " + toAdd} onClick={clicked? clicked : () => {}}>{text}</button>
     )
 }

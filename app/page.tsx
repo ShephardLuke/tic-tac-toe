@@ -61,18 +61,18 @@ export default function Home() {
   return (
     <>
       <Header currentPage="Play"/>
-      <div className="flex flex-col items-center pt-20 pb-20">
-        <h1 className="text-3xl font-bold">Tic Tac Toe</h1>
-        {game}  
-        <div className="flex flex-col items-center space-y-10">
-          <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
+      <main className="text-center">
+        <h1 className="text-3xl">Tic Tac Toe</h1>
+          {game}  
+          <div className="flex flex-col items-center space-y-10">
+            <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
 
-          <div className="flex flex-col space-y-10 items-center"> 
-            <DifficultySelect groupLabel={`${iconToText("X")}: `} difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
-            <DifficultySelect groupLabel={`${iconToText("O")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <div className="flex flex-col space-y-10 items-center"> 
+              <DifficultySelect groupLabel={`${iconToText("X")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+              <DifficultySelect groupLabel={`${iconToText("O")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            </div>
           </div>
-        </div>
-      </div>
+      </main>
       <Footer/>
     </>
   );
