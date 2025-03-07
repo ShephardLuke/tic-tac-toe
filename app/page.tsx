@@ -13,7 +13,7 @@ import { DifficultyGroup } from "./board/difficulty/difficultyGroup";
 import { DifficultyReference } from "./board/difficulty/difficultyReference";
 import { Icon, iconToText } from "./board/ticTacToeShared";
 import Button from "./button";
-import { Circle, CircleSmall, Grid3x3, Plus, X } from "lucide-react";
+import { Circle, Plus, X } from "lucide-react";
 import IconText from "./iconText";
 
 export default function Home() {
