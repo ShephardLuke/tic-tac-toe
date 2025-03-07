@@ -9,12 +9,12 @@ import { HardBot } from "./player/bot/hardBot";
 import { MediumBot } from "./player/bot/mediumBot";
 import { VeryEasyBot } from "./player/bot/veryEasyBot";
 import { Human } from "./player/human";
-import Header from "./template/global/header";
-import Footer from "./template/global/footer";
-import SubmitButton from "./template/buttons/submitButton";
 import { DifficultyGroup } from "./board/difficulty/difficultyGroup";
 import { DifficultyReference } from "./board/difficulty/difficultyReference";
 import { Icon, iconToText } from "./board/ticTacToeShared";
+import Button from "./button";
+import { Circle, CircleSmall, Grid3x3, Plus, X } from "lucide-react";
+import IconText from "./iconText";
 
 export default function Home() {
   const difficulties: DifficultyGroup[] = [ // All selectable difficulties
@@ -60,20 +60,21 @@ export default function Home() {
 
   return (
     <>
-      <Header currentPage="Play"/>
-      <main className="text-center">
-        <h1 className="text-3xl">Tic Tac Toe</h1>
-          {game}  
-          <div className="flex flex-col items-center space-y-10">
-            <SubmitButton text="New Game" clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)} }/>
-
-            <div className="flex flex-col space-y-10 items-center"> 
-              <DifficultySelect groupLabel={`${iconToText("X")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
-              <DifficultySelect groupLabel={`${iconToText("O")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
-            </div>
+      <main className="text-center p-1 pb-5">
+        <IconText>
+          <X size={"30px"} className="mt-auto mb-auto text-x"/>
+          <Circle size={"20px"} className="mt-auto mb-auto text-o"/>
+          <h1 className="text-base mt-auto mb-auto pl-1">Tic Tac Toe</h1>
+        </IconText>
+        {game}  
+        <div className="flex flex-col items-center space-y-10">
+          <Button clicked={() => {setGame(<Board playersList={createPlayers()} key={new Date().getTime()}/>)}}><IconText><Plus/>New Game</IconText></Button>
+          <div className="flex flex-col space-y-10 items-center"> 
+            <DifficultySelect groupLabel={`${iconToText("X")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={0} selectedGroup={playerList[0]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
+            <DifficultySelect groupLabel={`${iconToText("O")}: `} typeLabel="Difficulty: " difficulties={difficulties} index={1} selectedGroup={playerList[1]} changedGroup={setDifficultyGroup} changedIndex={setDifficultyIndex}/>
           </div>
+        </div>
       </main>
-      <Footer/>
     </>
   );
 }

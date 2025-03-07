@@ -11,16 +11,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        'link': '#0000EE',
-        'lightest-blue': '#3b82f6',
-        'light-blue':'#1a3e74',
-        'moderate-blue': '#12284a',
-        'dark-blue':'#0d203b',
-        'darkest-blue':'#0a182b',
-        'darkest-blue-2x': '#07111f',
-        'darkest-blue-3x': '#050b14',
+        primary: "#35a7ff", //554640
+        secondary: "#f18f01",
+        background: {
+          light: "#FFFFFF",
+          dark: "#2d3142",
+        },
+        x: "#35a7ff",
+        o: "#f18f01",
+        win: "#00A878",
+        grid: "#000000",
       },
     },
   },
