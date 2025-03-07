@@ -24,7 +24,7 @@ export default function DifficultySelect({groupLabel, index, difficulties, selec
             <div className="flex text-center">
                 <div>
                     <label htmlFor={id + "-group"}>{groupLabel}</label>
-                    <select onChange={(event) => {changedGroup(event, index)}} value={selectedGroup.group} className="border-2 border-black bg-gray-200"  id={id + "-group"}>
+                    <select onChange={(event) => {changedGroup(event, index)}} value={selectedGroup.group} className="border-2 border-black bg-gray-300 hover:bg-gray-400 active:bg-gray-500 transition ease-in-out duration-150 hover:scale-105"  id={id + "-group"}>
                         {groups}
                     </select>   
                 </div>
@@ -32,7 +32,7 @@ export default function DifficultySelect({groupLabel, index, difficulties, selec
                     choices.length > 1 ? 
                     <div className="pl-5">
                         <label htmlFor={id + "-choice"}>{typeLabel}</label>
-                        <select onChange={(event) => {changedIndex(event, index)}} value={selectedGroup.index} className="border-2 border-black bg-gray-200" id={id + "-choice"}>
+                        <select onChange={(event) => {changedIndex(event, index)}} value={selectedGroup.index} className="border-2 border-black bg-gray-300 hover:bg-gray-400 active:bg-gray-500 transition ease-in-out duration-150 hover:scale-105" id={id + "-choice"}>
                             {choices}
                         </select>   
                     </div>
